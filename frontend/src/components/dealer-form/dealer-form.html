@@ -1,0 +1,12 @@
+<h2>{{ id ? 'Edit Dealer' : 'Add Dealer' }}</h2>
+
+<form (ngSubmit)="save()">
+  <input [(ngModel)]="dealer.dealerName" name="dealerName" placeholder="Name" required />
+  <input [(ngModel)]="dealer.address" name="address" placeholder="Address" />
+  <input [(ngModel)]="dealer.cityId" name="cityId" type="number" placeholder="City ID" />
+  <input [(ngModel)]="dealer.stateId" name="stateId" type="number" placeholder="State ID" />
+  <input [(ngModel)]="dealer.phone" name="phone" placeholder="Phone" />
+  <input [(ngModel)]="dealer.email" name="email" placeholder="Email" />
+
+  <button type="submit">Save</button>
+</form>

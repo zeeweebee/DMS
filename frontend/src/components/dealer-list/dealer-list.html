@@ -1,0 +1,24 @@
+<h2>Dealer List</h2>
+
+<button routerLink="/add">Add Dealer</button>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Code</th>
+    <th>Phone</th>
+    <th>Email</th>
+    <th>Actions</th>
+  </tr>
+
+  <tr *ngFor="let dealer of dealers">
+    <td>{{ dealer.dealerName }}</td>
+    <td>{{ dealer.dealerCode }}</td>
+    <td>{{ dealer.phone }}</td>
+    <td>{{ dealer.email }}</td>
+    <td>
+      <button [routerLink]="['/edit', dealer.dealerId]">Edit</button>
+      <button (click)="deleteDealer(dealer.dealerId!)">Delete</button>
+    </td>
+  </tr>
+</table>
