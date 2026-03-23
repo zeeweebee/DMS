@@ -11,7 +11,7 @@
     <th>Actions</th>
   </tr>
 
-  <tr *ngFor="let dealer of dealers">
+  <tr *ngFor="let dealer of dealers$ | async">
     <td>{{ dealer.dealerName }}</td>
     <td>{{ dealer.dealerCode }}</td>
     <td>{{ dealer.phone }}</td>
