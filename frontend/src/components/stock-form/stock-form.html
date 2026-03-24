@@ -1,0 +1,76 @@
+<div class="form-page">
+  <div class="form-card">
+    <div class="form-header">
+      <button class="back-btn" (click)="cancel()">← Back to Stock</button>
+      <h2 class="form-title">Add Vehicle Stock</h2>
+      <p class="form-subtitle">Register a new vehicle to the inventory</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+
+      <!-- VIN -->
+      <div class="field full-width">
+        <label for="vin">VIN (Vehicle Identification Number) <span class="required">*</span></label>
+        <input id="vin" [(ngModel)]="request.vin" name="vin"
+               placeholder="17-character VIN e.g. 1HGCM82633A123456" required
+               maxlength="50" />
+        <span class="field-hint">Must be unique across all stock</span>
+      </div>
+
+      <div class="form-row">
+        <!-- Model -->
+        <div class="field">
+          <label for="modelId">Vehicle Model <span class="required">*</span></label>
+          <select id="modelId" [(ngModel)]="request.modelId" name="modelId" required>
+            <option [value]="0" disabled>Select model…</option>
+            <option *ngFor="let m of models" [value]="m.modelId">
+              {{ m.modelName }} {{ m.variant }} — {{ m.fuelType }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Color -->
+        <div class="field">
+          <label for="color">Color</label>
+          <input id="color" [(ngModel)]="request.color" name="color"
+                 placeholder="e.g. Pearl White, Midnight Black" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- Manufacture Date -->
+        <div class="field">
+          <label for="mfgDate">Manufacture Date</label>
+          <input id="mfgDate" [(ngModel)]="request.manufactureDate" name="manufactureDate"
+                 type="date" />
+        </div>
+
+        <!-- Dealer selection: Admin only -->
+        <div *ngIf="isAdmin()" class="field">
+          <label for="dealerId">Assign to Dealer</label>
+          <select id="dealerId" [(ngModel)]="selectedDealerId" name="dealerId">
+            <option [value]="null">Auto-assign (my dealer)</option>
+            <option *ngFor="let d of dealers" [value]="d.dealerId">{{ d.dealerName }}</option>
+          </select>
+        </div>
+
+        <!-- Dealer note for non-admin -->
+        <div *ngIf="!isAdmin()" class="field">
+          <label>Assigned Dealer</label>
+          <div class="read-only-field">Derived from your account (auto)</div>
+          <span class="field-hint">Your dealership ID is securely extracted from your login session</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Adding…' : 'Add to Inventory' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

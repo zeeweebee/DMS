@@ -23,4 +23,7 @@ public class User {
 
     private String role;
 
+    /** Links DEALER-role users to their Dealer record. Null for ADMIN/EMPLOYEE. */
+    @Column(name = "dealer_id")
+    private Long dealerId;
 }

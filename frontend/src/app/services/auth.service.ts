@@ -46,6 +46,22 @@ export class AuthService {
     return localStorage.getItem(this.roleKey);
   }
 
+  getRoles(): string[] {
+    const role = this.getRole();
+    if (!role) {
+      return [];
+    }
+    return role.split(',').map(r => r.trim().toUpperCase());
+  }
+
+  hasRole(role: string): boolean {
+    return this.getRoles().includes(role.toUpperCase());
+  }
+
+  hasAnyRole(roles: string[]): boolean {
+    return roles.some(r => this.hasRole(r));
+  }
+
   private hasToken(): boolean {
     return !!this.getToken();
   }

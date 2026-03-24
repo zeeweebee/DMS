@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../app/services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hello',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './hello.html'
 })
 export class HelloComponent implements OnInit {

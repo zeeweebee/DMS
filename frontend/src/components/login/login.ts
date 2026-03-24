@@ -19,13 +19,8 @@ export class LoginComponent {
 
   onSubmit() {
     this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        const role = response.role;
-        if (role === 'ADMIN') {
-          this.router.navigate(['/']);
-        } else {
-          this.router.navigate(['/hello']);
-        }
+      next: () => {
+        this.router.navigate(['/hello']);
       },
       error: (err) => {
         this.errorMessage = 'Invalid credentials';

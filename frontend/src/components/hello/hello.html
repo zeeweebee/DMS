@@ -1,5 +1,15 @@
 <div class="hello-container">
   <h2>Hello, {{ role }}!</h2>
   <p>Welcome to the application.</p>
+
+  <div class="module-links">
+    <a routerLink="/models" *ngIf="role">Model Master (Vehicle Catalog)</a>
+    <a routerLink="/stock" *ngIf="role">Vehicle Stock (Inventory)</a>
+
+    <a routerLink="/dealers" *ngIf="role === 'ADMIN'">Dealer Management</a>
+    <a routerLink="/models/add" *ngIf="role === 'ADMIN'">Add Model</a>
+    <a routerLink="/stock/add" *ngIf="role === 'ADMIN' || role === 'DEALER'">Add Stock</a>
+  </div>
+
   <button (click)="logout()">Logout</button>
 </div>

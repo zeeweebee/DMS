@@ -13,12 +13,7 @@ export class App implements OnInit {
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
-      const role = this.authService.getRole();
-      if (role === 'ADMIN') {
-        this.router.navigate(['/']);
-      } else {
-        this.router.navigate(['/hello']);
-      }
+      this.router.navigate(['/hello']);
     } else {
       this.router.navigate(['/login']);
     }

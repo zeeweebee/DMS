@@ -1,0 +1,122 @@
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Vehicle Stock</h1>
+      <span class="record-count">{{ filteredStocks.length }} / {{ stocks.length }} vehicles</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/stock/add" class="btn btn-primary">+ Add Stock</button>
+      <button routerLink="/models" class="btn btn-secondary">Models</button>
+      <button *ngIf="isAdmin()" routerLink="/" class="btn btn-secondary">Dealers</button>
+      <button (click)="logout()" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div *ngIf="successMsg" class="alert-success">✓ {{ successMsg }}</div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button *ngFor="let s of ['ALL','AVAILABLE','BOOKED','SOLD']"
+            class="filter-btn"
+            [class.active]="statusFilter === s"
+            (click)="statusFilter = s; applyFilter()">
+      {{ s }}
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading inventory…</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>VIN</th>
+          <th>Model / Variant</th>
+          <th *ngIf="isAdmin()">Dealer</th>
+          <th>Color</th>
+          <th>Mfg Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of filteredStocks" class="table-row">
+          <td class="vin-cell">{{ s.vin }}</td>
+          <td class="model-cell">
+            <span class="model-name">{{ s.modelName }}</span>
+            <span class="model-variant">{{ s.variant }}</span>
+          </td>
+          <td *ngIf="isAdmin()" class="dealer-cell">{{ s.dealerName }}</td>
+          <td>
+            <span class="color-dot" [style.background]="s.color?.toLowerCase()"></span>
+            {{ s.color }}
+          </td>
+          <td>{{ s.manufactureDate | date:'mediumDate' }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="statusClass(s.stockStatus ?? '')">
+              {{ s.stockStatus }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <!-- Book: only if AVAILABLE -->
+            <button *ngIf="s.stockStatus === 'AVAILABLE'"
+                    (click)="markBooked(s.vin)"
+                    class="action-btn btn-book" title="Mark as Booked">Book</button>
+            <!-- Sell: only if BOOKED -->
+            <button *ngIf="s.stockStatus === 'BOOKED'"
+                    (click)="markSold(s.vin)"
+                    class="action-btn btn-sell" title="Mark as Sold">Sell</button>
+            <!-- Transfer: only if AVAILABLE -->
+            <button *ngIf="s.stockStatus === 'AVAILABLE'"
+                    (click)="openTransfer(s.vin)"
+                    class="action-btn btn-transfer" title="Transfer to another dealer">Transfer</button>
+            <!-- Delete: ADMIN only -->
+            <button *ngIf="isAdmin()"
+                    (click)="deleteStock(s.vin)"
+                    class="action-btn btn-delete" title="Delete">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredStocks.length === 0 && !loading">
+          <td [colSpan]="isAdmin() ? 7 : 6" class="empty-state">No vehicles found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Transfer Modal -->
+<div *ngIf="showTransfer" class="modal-overlay" (click)="showTransfer = false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">Transfer Stock</h3>
+    <p class="modal-subtitle">VIN: <strong>{{ transferVin }}</strong></p>
+
+    <div class="field">
+      <label>Target Dealer</label>
+      <select [(ngModel)]="targetDealerId" name="targetDealer">
+        <option [value]="null" disabled>Select dealer…</option>
+        <option *ngFor="let d of dealers" [value]="d.dealerId">{{ d.dealerName }}</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-cancel" (click)="showTransfer = false">Cancel</button>
+      <button class="btn btn-primary"
+              [disabled]="!targetDealerId || transferring"
+              (click)="confirmTransfer()">
+        <span *ngIf="transferring" class="spinner-sm"></span>
+        {{ transferring ? 'Transferring…' : 'Confirm Transfer' }}
+      </button>
+    </div>
+  </div>
+</div>

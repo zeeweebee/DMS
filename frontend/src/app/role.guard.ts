@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Injectable({
@@ -8,13 +8,19 @@ import { AuthService } from './services/auth.service';
 export class RoleGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean {
-    const role = this.authService.getRole();
-    if (role === 'ADMIN') {
-      return true;
-    } else {
-      this.router.navigate(['/hello']);
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const allowedRoles: string[] = route.data['roles'] || [];
+
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
       return false;
     }
+
+    if (allowedRoles.length === 0 || this.authService.hasAnyRole(allowedRoles)) {
+      return true;
+    }
+
+    this.router.navigate(['/hello']);
+    return false;
   }
 }
