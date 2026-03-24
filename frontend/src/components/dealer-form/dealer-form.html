@@ -1,5 +1,7 @@
 <h2>{{ id ? 'Edit Dealer' : 'Add Dealer' }}</h2>
 
+<button (click)="logout()">Logout</button>
+
 <form (ngSubmit)="save()">
   <input [(ngModel)]="dealer.dealerName" name="dealerName" placeholder="Name" required />
   <input [(ngModel)]="dealer.address" name="address" placeholder="Address" />

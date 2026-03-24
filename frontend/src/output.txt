@@ -1,0 +1,730 @@
+Folder PATH listing for volume Windows
+Volume serial number is 7064-2969
+C:.
+¦   index.html
+¦   main.server.ts
+¦   main.ts
+¦   output.txt
+¦   script.bat
+¦   server.ts
+¦   styles.css
+¦   
++---app
+¦   ¦   app.config.server.ts
+¦   ¦   app.config.ts
+¦   ¦   app.css
+¦   ¦   app.html
+¦   ¦   app.routes.server.ts
+¦   ¦   app.routes.ts
+¦   ¦   app.spec.ts
+¦   ¦   app.ts
+¦   ¦   auth.guard.ts
+¦   ¦   role.guard.ts
+¦   ¦   
+¦   +---services
+¦           auth.service.ts
+¦           
++---components
+¦   +---dealer-form
+¦   ¦       dealer-form.css
+¦   ¦       dealer-form.html
+¦   ¦       dealer-form.spec.ts
+¦   ¦       dealer-form.ts
+¦   ¦       
+¦   +---dealer-list
+¦   ¦       dealer-list.css
+¦   ¦       dealer-list.html
+¦   ¦       dealer-list.spec.ts
+¦   ¦       dealer-list.ts
+¦   ¦       
+¦   +---hello
+¦   ¦       hello.css
+¦   ¦       hello.html
+¦   ¦       hello.ts
+¦   ¦       
+¦   +---login
+¦           login.css
+¦           login.html
+¦           login.ts
+¦           
++---services
+        dealer.spec.ts
+        dealer.ts
+        
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.server.ts ====
+import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
+import { App } from './app/app';
+import { config } from './app/app.config.server';
+
+const bootstrap = (context: BootstrapContext) =>
+    bootstrapApplication(App, config, context);
+
+export default bootstrap;
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.ts ====
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
+
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\output.txt ====
+Folder PATH listing for volume Windows
+Volume serial number is 7064-2969
+C:.
+¦   index.html
+¦   main.server.ts
+¦   main.ts
+¦   output.txt
+¦   script.bat
+¦   server.ts
+¦   styles.css
+¦   
++---app
+¦   ¦   app.config.server.ts
+¦   ¦   app.config.ts
+¦   ¦   app.css
+¦   ¦   app.html
+¦   ¦   app.routes.server.ts
+¦   ¦   app.routes.ts
+¦   ¦   app.spec.ts
+¦   ¦   app.ts
+¦   ¦   auth.guard.ts
+¦   ¦   role.guard.ts
+¦   ¦   
+¦   +---services
+¦           auth.service.ts
+¦           
++---components
+¦   +---dealer-form
+¦   ¦       dealer-form.css
+¦   ¦       dealer-form.html
+¦   ¦       dealer-form.spec.ts
+¦   ¦       dealer-form.ts
+¦   ¦       
+¦   +---dealer-list
+¦   ¦       dealer-list.css
+¦   ¦       dealer-list.html
+¦   ¦       dealer-list.spec.ts
+¦   ¦       dealer-list.ts
+¦   ¦       
+¦   +---hello
+¦   ¦       hello.css
+¦   ¦       hello.html
+¦   ¦       hello.ts
+¦   ¦       
+¦   +---login
+¦           login.css
+¦           login.html
+¦           login.ts
+¦           
++---services
+        dealer.spec.ts
+        dealer.ts
+        
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.server.ts ====
+import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
+import { App } from './app/app';
+import { config } from './app/app.config.server';
+
+const bootstrap = (context: BootstrapContext) =>
+    bootstrapApplication(App, config, context);
+
+export default bootstrap;
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.ts ====
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
+
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\output.txt ====
+Folder PATH listing for volume Windows
+Volume serial number is 7064-2969
+C:.
+¦   index.html
+¦   main.server.ts
+¦   main.ts
+¦   output.txt
+¦   script.bat
+¦   server.ts
+¦   styles.css
+¦   
++---app
+¦   ¦   ==== C:\Users\2013288\Downloads\demo (1)\frontend\src\script.bat ====
+@echo off
+rem Save everything directly to output.txt without echoing to console
+(
+    tree /f
+    for /r %%f in (*) do (
+        if /i not "%%~xf"==".css" if /i not "%%~xf"==".html" (
+            echo ==== %%f ====
+            type "%%f"
+        )
+    )
+) > output.txt==== C:\Users\2013288\Downloads\demo (1)\frontend\src\server.ts ====
+import {
+  AngularNodeAppEngine,
+  createNodeRequestHandler,
+  isMainModule,
+  writeResponseToNodeResponse,
+} from '@angular/ssr/node';
+import express from 'express';
+import { join } from 'node:path';
+
+const browserDistFolder = join(import.meta.dirname, '../browser');
+
+const app = express();
+const angularApp = new AngularNodeAppEngine();
+
+/**
+ * Example Express Rest API endpoints can be defined here.
+ * Uncomment and define endpoints as necessary.
+ *
+ * Example:
+ * ```ts
+ * app.get('/api/{*splat}', (req, res) => {
+ *   // Handle API request
+ * });
+ * ```
+ */
+
+/**
+ * Serve static files from /browser
+ */
+app.use(
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+  }),
+);
+
+/**
+ * Handle all other requests by rendering the Angular application.
+ */
+app.use((req, res, next) => {
+  angularApp
+    .handle(req)
+    .then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    )
+    .catch(next);
+});
+
+/**
+ * Start the server if this module is the main entry point, or it is ran via PM2.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ */
+if (isMainModule(import.meta.url) || process.env['pm_id']) {
+  const port = process.env['PORT'] || 4000;
+  app.listen(port, (error) => {
+    if (error) {
+      throw error;
+    }
+
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
+}
+
+/**
+ * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
+ */
+export const reqHandler = createNodeRequestHandler(app);
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.config.server.ts ====
+import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
+import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { appConfig } from './app.config';
+import { serverRoutes } from './app.routes.server';
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(withRoutes(serverRoutes))
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.config.ts ====
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withFetch())
+  ]
+};==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.server.ts ====
+import { RenderMode, ServerRoute } from '@angular/ssr';
+
+export const serverRoutes: ServerRoute[] = [
+  {
+    path: '',
+    renderMode: RenderMode.Prerender
+  },
+  {
+    path: 'add',
+    renderMode: RenderMode.Prerender
+  },
+  {
+    path: 'edit/:id',
+    renderMode: RenderMode.Server
+  }
+];==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.ts ====
+import { Routes } from '@angular/router';
+import { DealerListComponent } from '../components/dealer-list/dealer-list';
+import { DealerFormComponent } from '../components/dealer-form/dealer-form';
+import { LoginComponent } from '../components/login/login';
+import { HelloComponent } from '../components/hello/hello';
+import { AuthGuard } from './auth.guard';
+import { RoleGuard } from './role.guard';
+
+export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: '', component: DealerListComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'add', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'edit/:id', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'hello', component: HelloComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '/login' }
+];==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.spec.ts ====
+import { TestBed } from '@angular/core/testing';
+import { App } from './app';
+
+describe('App', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [App],
+    }).compileComponents();
+  });
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it('should render title', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, frontend');
+  });
+});
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.ts ====
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  template: `<router-outlet></router-outlet>`
+})
+export class App implements OnInit {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      const role = this.authService.getRole();
+      if (role === 'ADMIN') {
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate(['/hello']);
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\auth.guard.ts ====
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): boolean {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\role.guard.ts ====
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RoleGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): boolean {
+    const role = this.authService.getRole();
+    if (role === 'ADMIN') {
+      return true;
+    } else {
+      this.router.navigate(['/hello']);
+      return false;
+    }
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\services\auth.service.ts ====
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private apiUrl = 'http://localhost:8080/api/auth';
+  private tokenKey = 'authToken';
+  private roleKey = 'userRole';
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+  private userRoleSubject = new BehaviorSubject<string | null>(this.getRole());
+
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  public userRole$ = this.userRoleSubject.asObservable();
+
+  constructor(private http: HttpClient) {}
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem(this.roleKey, response.role);
+          this.isAuthenticatedSubject.next(true);
+          this.userRoleSubject.next(response.role);
+        }
+      })
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.roleKey);
+    this.isAuthenticatedSubject.next(false);
+    this.userRoleSubject.next(null);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem(this.roleKey);
+  }
+
+  private hasToken(): boolean {
+    return !!this.getToken();
+  }
+
+  isAuthenticated(): boolean {
+    return this.hasToken();
+  }
+
+  getAuthHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.spec.ts ====
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DealerForm } from './dealer-form';
+
+describe('DealerForm', () => {
+  let component: DealerForm;
+  let fixture: ComponentFixture<DealerForm>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DealerForm],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DealerForm);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.ts ====
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { DealerService, Dealer } from '../../services/dealer';
+import { AuthService } from '../../app/services/auth.service';
+
+@Component({
+  selector: 'app-dealer-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './dealer-form.html'
+})
+export class DealerFormComponent implements OnInit {
+
+  dealer: Dealer = {
+    dealerName: '',
+    address: '',
+    cityId: 0,
+    stateId: 0,
+    phone: '',
+    email: ''
+  };
+
+  id?: number;
+
+  constructor(
+    private dealerService: DealerService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    const param = this.route.snapshot.paramMap.get('id');
+    if (param) {
+      this.id = Number(param);
+      this.dealerService.getById(this.id).subscribe(data => {
+        this.dealer = data;
+      });
+    }
+  }
+
+  save() {
+    if (this.id) {
+      this.dealerService.update(this.id, this.dealer).subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    } else {
+      this.dealerService.create(this.dealer).subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.spec.ts ====
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DealerListComponent } from './dealer-list';
+
+describe('DealerListComponent', () => {
+  let component: DealerListComponent;
+  let fixture: ComponentFixture<DealerListComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DealerListComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DealerListComponent);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.ts ====
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { DealerService, Dealer } from '../../services/dealer';
+import { AuthService } from '../../app/services/auth.service';
+import { Observable } from 'rxjs';
+import { PLATFORM_ID } from '@angular/core';
+
+@Component({
+  selector: 'app-dealer-list',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './dealer-list.html'
+})
+export class DealerListComponent {
+
+  dealers$: Observable<Dealer[]>; // Observable for async pipe
+  platformId = inject(PLATFORM_ID);
+
+  constructor(private dealerService: DealerService, private authService: AuthService, private router: Router) {
+    this.dealers$ = this.dealerService.getAll(); // Assign observable directly
+  }
+
+  // Delete dealer and refresh observable
+  deleteDealer(id: number) {
+    this.dealerService.delete(id).subscribe(() => {
+      this.dealers$ = this.dealerService.getAll(); // Reassign observable to refresh table
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\hello\hello.ts ====
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../app/services/auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-hello',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './hello.html'
+})
+export class HelloComponent implements OnInit {
+  role: string | null = null;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.authService.userRole$.subscribe(role => {
+      this.role = role;
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\login\login.ts ====
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../app/services/auth.service';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './login.html'
+})
+export class LoginComponent {
+  username = '';
+  password = '';
+  errorMessage = '';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onSubmit() {
+    this.authService.login(this.username, this.password).subscribe({
+      next: (response) => {
+        const role = response.role;
+        if (role === 'ADMIN') {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/hello']);
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'Invalid credentials';
+      }
+    });
+  }
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\dealer.spec.ts ====
+import { TestBed } from '@angular/core/testing';
+
+import { Dealer } from './dealer';
+
+describe('Dealer', () => {
+  let service: Dealer;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(Dealer);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\dealer.ts ====
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from '../app/services/auth.service';
+
+export interface Dealer {
+  dealerId?: number;
+  dealerName: string;
+  dealerCode?: string;
+  address: string;
+  cityId: number;
+  stateId: number;
+  phone: string;
+  email: string;
+  status?: string;
+  createdAt?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DealerService {
+
+  private apiUrl = 'http://localhost:8080/api/dealers';
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  getAll(): Observable<Dealer[]> {
+    return this.http.get<Dealer[]>(this.apiUrl, { headers: this.authService.getAuthHeaders() });
+  }
+
+  getById(id: number): Observable<Dealer> {
+    return this.http.get<Dealer>(`${this.apiUrl}/${id}`, { headers: this.authService.getAuthHeaders() });
+  }
+
+  create(dealer: Dealer): Observable<Dealer> {
+    return this.http.post<Dealer>(this.apiUrl, dealer, { headers: this.authService.getAuthHeaders() });
+  }
+
+  update(id: number, dealer: Dealer): Observable<Dealer> {
+    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer, { headers: this.authService.getAuthHeaders() });
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.authService.getAuthHeaders() });
+  }
+}
+
+  getAll(): Observable<Dealer[]> {
+    return this.http.get<Dealer[]>(this.apiUrl);
+  }
+
+  getById(id: number): Observable<Dealer> {
+    return this.http.get<Dealer>(`${this.apiUrl}/${id}`);
+  }
+
+  create(dealer: Dealer): Observable<Dealer> {
+    return this.http.post<Dealer>(this.apiUrl, dealer);
+  }
+
+  update(id: number, dealer: Dealer): Observable<Dealer> {
+    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+}

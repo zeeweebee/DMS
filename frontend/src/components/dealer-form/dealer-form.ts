@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DealerService, Dealer } from '../../services/dealer';
+import { AuthService } from '../../app/services/auth.service';
 
 @Component({
   selector: 'app-dealer-form',
@@ -26,7 +27,8 @@ export class DealerFormComponent implements OnInit {
   constructor(
     private dealerService: DealerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -49,5 +51,10 @@ export class DealerFormComponent implements OnInit {
         this.router.navigate(['/']);
       });
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
