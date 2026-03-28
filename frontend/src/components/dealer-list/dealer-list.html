@@ -1,9 +1,11 @@
 <div class="page-wrapper">
+
+  <!-- Header -->
   <header class="page-header">
     <div class="header-left">
       <a routerLink="/hello" class="back-link">← Dashboard</a>
       <h1 class="page-title">Dealers</h1>
-      <span class="record-count" *ngIf="(dealers$ | async) as list">{{ list.length }} dealers</span>
+      <span class="record-count">{{ dealers.length }} dealers</span>
     </div>
     <div class="header-actions">
       <button routerLink="/dealers/add" class="btn btn-primary">+ Add Dealer</button>
@@ -11,7 +13,17 @@
     </div>
   </header>
 
-  <div class="table-container">
+  <!-- Alerts -->
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading dealers…</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
     <table class="data-table">
       <thead>
         <tr>
@@ -24,35 +36,31 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngIf="dealers$ | async as list; else loading">
-          <tr *ngFor="let dealer of list" class="table-row">
-            <td class="name-cell">{{ dealer.dealerName }}</td>
-            <td class="code-cell">{{ dealer.dealerCode }}</td>
-            <td class="contact-cell">
-              <div>{{ dealer.phone }}</div>
-              <div class="sub-text">{{ dealer.email }}</div>
-            </td>
-            <td class="location-cell">
-              <div class="sub-text">City {{ dealer.cityId }} · State {{ dealer.stateId }}</div>
-            </td>
-            <td>
-              <span class="status-badge" [class.active]="dealer.status === 'ACTIVE'">
-                {{ dealer.status ?? 'ACTIVE' }}
-              </span>
-            </td>
-            <td class="actions-cell">
-              <button [routerLink]="['/dealers/edit', dealer.dealerId]" class="btn-action btn-edit">Edit</button>
-              <button (click)="deleteDealer(dealer.dealerId!)" class="btn-action btn-delete">Delete</button>
-            </td>
-          </tr>
-          <tr *ngIf="list.length === 0">
-            <td colspan="6" class="empty-state">No dealers found. Add one to get started.</td>
-          </tr>
-        </ng-container>
-        <ng-template #loading>
-          <tr><td colspan="6" class="loading-state"><div class="spinner"></div></td></tr>
-        </ng-template>
+        <tr *ngFor="let dealer of dealers" class="table-row">
+          <td class="name-cell">{{ dealer.dealerName }}</td>
+          <td class="code-cell">{{ dealer.dealerCode }}</td>
+          <td class="contact-cell">
+            <div>{{ dealer.phone }}</div>
+            <div class="sub-text">{{ dealer.email }}</div>
+          </td>
+          <td class="location-cell">
+            <div class="sub-text">City {{ dealer.cityId }} · State {{ dealer.stateId }}</div>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="dealer.status === 'ACTIVE' ? 'badge-active' : 'badge-inactive'">
+              {{ dealer.status ?? 'ACTIVE' }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <button [routerLink]="['/dealers/edit', dealer.dealerId]" class="btn-action btn-edit">Edit</button>
+            <button (click)="deleteDealer(dealer.dealerId!)" class="btn-action btn-delete">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="dealers.length === 0 && !loading">
+          <td colspan="6" class="empty-state">No dealers found. Add one to get started.</td>
+        </tr>
       </tbody>
     </table>
   </div>
+
 </div>
