@@ -19,19 +19,27 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
-      tap((response: any) => {
-        if (response.token) {
-          this.setItem(this.tokenKey, response.token);
-          this.setItem(this.roleKey, response.role);
-          this.isAuthenticatedSubject.next(true);
-          this.userRoleSubject.next(response.role);
-        }
-      })
-    );
-  }
+login(username: string, password: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
+    tap((response: any) => {
+      console.log('Backend Response:', response); // Debugging line
 
+      // Your backend returns { success: true, data: { token: '...', role: '...' } }
+      // So we must access response.data
+      if (response && response.data && response.data.token) {
+        this.setItem(this.tokenKey, response.data.token);
+        this.setItem(this.roleKey, response.data.role);
+        
+        this.isAuthenticatedSubject.next(true);
+        this.userRoleSubject.next(response.data.role);
+        
+        console.log('Token saved to localStorage');
+      } else {
+        console.error('Token not found in response structure', response);
+      }
+    })
+  );
+}
   logout(): void {
     this.removeItem(this.tokenKey);
     this.removeItem(this.roleKey);

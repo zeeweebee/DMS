@@ -23,11 +23,14 @@ export class LoginComponent {
     this.loading = true;
     this.errorMessage = '';
     this.authService.login(this.username, this.password).subscribe({
-      next: () => this.router.navigate(['/hello']),
+      next: () => {
+        this.loading = false; // Turn off loading on success
+        this.router.navigate(['/hello']);
+      },      
       error: () => {
-        this.loading = false;
-        this.errorMessage = 'Invalid username or password.';
-      }
+          this.loading = false;
+          this.errorMessage = 'Invalid username or password.';
+        }
     });
   }
 }

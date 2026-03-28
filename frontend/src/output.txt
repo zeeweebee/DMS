@@ -1,5 +1,5 @@
-Folder PATH listing for volume Windows
-Volume serial number is 7064-2969
+Folder PATH listing for volume OS
+Volume serial number is EC55-CC8C
 C:.
 ¦   index.html
 ¦   main.server.ts
@@ -74,7 +74,7 @@ C:.
         model.service.ts
         stock.service.ts
         
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.server.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.server.ts ====
 import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 import { config } from './app/app.config.server';
@@ -83,16 +83,16 @@ const bootstrap = (context: BootstrapContext) =>
     bootstrapApplication(App, config, context);
 
 export default bootstrap;
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.ts ====
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';
 
 bootstrapApplication(App, appConfig)
   .catch((err) => console.error(err));
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\output.txt ====
-Folder PATH listing for volume Windows
-Volume serial number is 7064-2969
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\output.txt ====
+Folder PATH listing for volume OS
+Volume serial number is EC55-CC8C
 C:.
 ¦   index.html
 ¦   main.server.ts
@@ -167,7 +167,7 @@ C:.
         model.service.ts
         stock.service.ts
         
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.server.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.server.ts ====
 import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 import { config } from './app/app.config.server';
@@ -176,23 +176,24 @@ const bootstrap = (context: BootstrapContext) =>
     bootstrapApplication(App, config, context);
 
 export default bootstrap;
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.ts ====
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';
 
 bootstrapApplication(App, appConfig)
   .catch((err) => console.error(err));
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\output.txt ====
-Folder PATH listing for volume Windows
-Volume serial number is 7064-2969
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\output.txt ====
+Folder PATH listing for volume OS
+Volume serial number is EC55-CC8C
 C:.
 ¦   index.html
 ¦   main.server.ts
 ¦   main.ts
 ¦   output.txt
 ¦   script.bat
-¦   server.ts==== C:\Users\2013288\Downloads\demo (1)\frontend\src\script.bat ====
+¦   server.ts
+¦   styl==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\script.bat ====
 @echo off
 rem Save everything directly to output.txt without echoing to console
 (
@@ -203,7 +204,7 @@ rem Save everything directly to output.txt without echoing to console
             type "%%f"
         )
     )
-) > output.txt==== C:\Users\2013288\Downloads\demo (1)\frontend\src\server.ts ====
+) > output.txt==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\server.ts ====
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -272,7 +273,7 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
  * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
  */
 export const reqHandler = createNodeRequestHandler(app);
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.config.server.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.config.server.ts ====
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { appConfig } from './app.config';
@@ -285,7 +286,7 @@ const serverConfig: ApplicationConfig = {
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.config.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.config.ts ====
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -298,7 +299,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor]))
   ]
 };
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.server.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.routes.server.ts ====
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
@@ -308,7 +309,7 @@ export const serverRoutes: ServerRoute[] = [
   // All other routes require auth (localStorage) â€” must render on the client
   { path: '**', renderMode: RenderMode.Client }
 ];
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.routes.ts ====
 import { Routes } from '@angular/router';
 import { DealerListComponent } from '../components/dealer-list/dealer-list';
 import { DealerFormComponent } from '../components/dealer-form/dealer-form';
@@ -343,7 +344,7 @@ export const routes: Routes = [
   { path: 'hello', component: HelloComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: '/login' }
-];==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.spec.ts ====
+];==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.spec.ts ====
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
@@ -367,7 +368,7 @@ describe('App', () => {
     expect(compiled.querySelector('h1')?.textContent).toContain('Hello, frontend');
   });
 });
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.ts ====
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -378,7 +379,7 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html'
 })
 export class App {}
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\auth.guard.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\auth.guard.ts ====
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
@@ -397,7 +398,7 @@ export class AuthGuard implements CanActivate {
       return false;
     }
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\auth.interceptor.ts ====
+}==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\auth.interceptor.ts ====
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth.service';
@@ -411,7 +412,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
   return next(req);
 };
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\role.guard.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\role.guard.ts ====
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
@@ -437,7 +438,7 @@ export class RoleGuard implements CanActivate {
     this.router.navigate(['/hello']);
     return false;
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\services\auth.service.ts ====
+}==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\services\auth.service.ts ====
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -520,7 +521,7 @@ export class AuthService {
     if (this.isBrowser) localStorage.removeItem(key);
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.spec.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-form\dealer-form.spec.ts ====
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DealerForm } from './dealer-form';
@@ -543,7 +544,7 @@ describe('DealerForm', () => {
     expect(component).toBeTruthy();
   });
 });
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-form\dealer-form.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -598,7 +599,7 @@ export class DealerFormComponent implements OnInit {
 
   cancel() { this.router.navigate(['/dealers']); }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.spec.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-list\dealer-list.spec.ts ====
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DealerListComponent } from './dealer-list';
@@ -621,7 +622,7 @@ describe('DealerListComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-list\dealer-list.ts ====
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -656,7 +657,7 @@ export class DealerListComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\hello\hello.ts ====
+}==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\hello\hello.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -715,7 +716,7 @@ export class HelloComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\login\login.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\login\login.ts ====
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -749,7 +750,7 @@ export class LoginComponent {
     });
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-form\model-form.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\model-form\model-form.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -821,7 +822,7 @@ export class ModelFormComponent implements OnInit {
 
   cancel(): void { this.router.navigate(['/models']); }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-list\model-list.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\model-list\model-list.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -883,7 +884,7 @@ export class ModelListComponent implements OnInit {
     return status === 'ACTIVE' ? 'badge-active' : 'badge-inactive';
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-form\stock-form.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\stock-form\stock-form.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -957,7 +958,7 @@ export class StockFormComponent implements OnInit {
 
   cancel(): void { this.router.navigate(['/stock']); }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-list\stock-list.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\stock-list\stock-list.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -1093,7 +1094,7 @@ export class StockListComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\dealer.spec.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\dealer.spec.ts ====
 import { TestBed } from '@angular/core/testing';
 
 import { Dealer } from './dealer';
@@ -1110,7 +1111,7 @@ describe('Dealer', () => {
     expect(service).toBeTruthy();
   });
 });
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\dealer.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\dealer.ts ====
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -1154,7 +1155,7 @@ export class DealerService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\model.service.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\model.service.ts ====
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -1199,7 +1200,7 @@ export class ModelService {
     return this.http.delete<string>(`${this.apiUrl}/${id}`);
   }
 }
-==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\stock.service.ts ====
+==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\stock.service.ts ====
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
