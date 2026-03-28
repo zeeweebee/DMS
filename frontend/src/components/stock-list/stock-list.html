@@ -3,6 +3,7 @@
   <!-- Header -->
   <header class="page-header">
     <div class="header-left">
+      <a routerLink="/hello" class="back-link">← Dashboard</a>
       <h1 class="page-title">Vehicle Stock</h1>
       <span class="record-count">{{ filteredStocks.length }} / {{ stocks.length }} vehicles</span>
     </div>
@@ -10,7 +11,7 @@
       <button routerLink="/stock/add" class="btn btn-primary">+ Add Stock</button>
       <button routerLink="/models" class="btn btn-secondary">Models</button>
       <button *ngIf="isAdmin()" routerLink="/" class="btn btn-secondary">Dealers</button>
-      <button (click)="logout()" class="btn btn-ghost">Logout</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
     </div>
   </header>
 

@@ -1,25 +1,23 @@
 <div class="page-wrapper">
   <header class="page-header">
     <div class="header-left">
+      <a routerLink="/hello" class="back-link">← Dashboard</a>
       <h1 class="page-title">Vehicle Models</h1>
       <span class="record-count">{{ models.length }} models</span>
     </div>
     <div class="header-actions">
-      <button *ngIf="isAdmin()" routerLink="/models/add" class="btn btn-primary">
-        <span class="btn-icon">+</span> Add Model
-      </button>
-      <button routerLink="/stock" class="btn btn-secondary">Stock</button>
-      <button *ngIf="isAdmin()" routerLink="/" class="btn btn-secondary">Dealers</button>
-      <button (click)="logout()" class="btn btn-ghost">Logout</button>
+      <button *ngIf="isAdmin()" routerLink="/models/add" class="btn btn-primary">+ Add Model</button>
+      <button routerLink="/stock" *ngIf="role === 'ADMIN' || role === 'DEALER'" class="btn btn-secondary">Stock</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
     </div>
   </header>
+
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
 
   <div *ngIf="loading" class="state-loading">
     <div class="spinner"></div>
     <p>Loading models…</p>
   </div>
-
-  <div *ngIf="error" class="state-error">{{ error }}</div>
 
   <div *ngIf="!loading && !error" class="table-container">
     <table class="data-table">
@@ -44,12 +42,12 @@
           <td class="price-cell">₹{{ m.exShowroomPrice | number:'1.0-0' }}</td>
           <td><span class="badge" [ngClass]="statusBadgeClass(m.status ?? '')">{{ m.status }}</span></td>
           <td *ngIf="isAdmin()" class="actions-cell">
-            <button [routerLink]="['/models/edit', m.modelId]" class="btn-icon-action btn-edit">Edit</button>
-            <button (click)="delete(m.modelId!)" class="btn-icon-action btn-delete">Delete</button>
+            <button [routerLink]="['/models/edit', m.modelId]" class="btn-action btn-edit">Edit</button>
+            <button (click)="delete(m.modelId!)" class="btn-action btn-delete">Delete</button>
           </td>
         </tr>
         <tr *ngIf="models.length === 0">
-          <td colspan="6" class="empty-state">No models found.</td>
+          <td [attr.colspan]="isAdmin() ? 6 : 5" class="empty-state">No models found.</td>
         </tr>
       </tbody>
     </table>

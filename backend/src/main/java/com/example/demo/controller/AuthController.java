@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -11,11 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -26,32 +25,23 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-            );
+    public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+        );
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            Optional<User> user = userService.findByUsername(userDetails.getUsername());
-            String role = user.get().getRole();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Optional<User> user = userService.findByUsername(userDetails.getUsername());
+        String role = user.get().getRole();
+        String token = jwtUtil.generateToken(userDetails.getUsername(), role);
 
-            String token = jwtUtil.generateToken(userDetails.getUsername(), role);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            response.put("role", role);
-
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
+        return ResponseEntity.ok(ApiResponse.ok(Map.of("token", token, "role", role)));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody RegisterRequest registerRequest) {
         if (userService.findByUsername(registerRequest.getUsername()).isPresent()) {
-            return ResponseEntity.badRequest().body("Username already exists");
+            return ResponseEntity.badRequest().body(ApiResponse.error("Username already exists"));
         }
 
         User user = User.builder()
@@ -61,14 +51,13 @@ public class AuthController {
                 .build();
 
         userService.saveUser(user);
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(ApiResponse.ok("User registered successfully", null));
     }
 
     public static class LoginRequest {
         private String username;
         private String password;
 
-        // getters and setters
         public String getUsername() { return username; }
         public void setUsername(String username) { this.username = username; }
         public String getPassword() { return password; }
@@ -80,7 +69,6 @@ public class AuthController {
         private String password;
         private String role;
 
-        // getters and setters
         public String getUsername() { return username; }
         public void setUsername(String username) { this.username = username; }
         public String getPassword() { return password; }

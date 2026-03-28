@@ -1,7 +1,7 @@
 <div class="form-page">
   <div class="form-card">
     <div class="form-header">
-      <button class="back-btn" (click)="cancel()">← Back</button>
+      <a routerLink="/models" class="back-btn">← Back to Models</a>
       <h2 class="form-title">{{ isEdit ? 'Edit Model' : 'Add New Model' }}</h2>
       <p class="form-subtitle">{{ isEdit ? 'Update vehicle model details' : 'Register a new vehicle model in the catalog' }}</p>
     </div>

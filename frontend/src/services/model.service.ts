@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../app/services/auth.service';
 
 export interface VehicleModel {
   modelId?: number;
@@ -17,29 +16,29 @@ export interface VehicleModel {
 export class ModelService {
   private apiUrl = 'http://localhost:8080/api/models';
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<VehicleModel[]> {
-    return this.http.get<VehicleModel[]>(this.apiUrl, { headers: this.auth.getAuthHeaders() });
+    return this.http.get<VehicleModel[]>(this.apiUrl);
   }
 
   getActive(): Observable<VehicleModel[]> {
-    return this.http.get<VehicleModel[]>(`${this.apiUrl}/active`, { headers: this.auth.getAuthHeaders() });
+    return this.http.get<VehicleModel[]>(`${this.apiUrl}/active`);
   }
 
   getById(id: number): Observable<VehicleModel> {
-    return this.http.get<VehicleModel>(`${this.apiUrl}/${id}`, { headers: this.auth.getAuthHeaders() });
+    return this.http.get<VehicleModel>(`${this.apiUrl}/${id}`);
   }
 
   create(model: VehicleModel): Observable<VehicleModel> {
-    return this.http.post<VehicleModel>(this.apiUrl, model, { headers: this.auth.getAuthHeaders() });
+    return this.http.post<VehicleModel>(this.apiUrl, model);
   }
 
   update(id: number, model: VehicleModel): Observable<VehicleModel> {
-    return this.http.put<VehicleModel>(`${this.apiUrl}/${id}`, model, { headers: this.auth.getAuthHeaders() });
+    return this.http.put<VehicleModel>(`${this.apiUrl}/${id}`, model);
   }
 
   delete(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/${id}`, { headers: this.auth.getAuthHeaders() });
+    return this.http.delete<string>(`${this.apiUrl}/${id}`);
   }
 }

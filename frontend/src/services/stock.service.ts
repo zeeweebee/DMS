@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../app/services/auth.service';
 
 export interface VehicleStock {
   vin: string;
@@ -32,43 +31,37 @@ export interface TransferStockRequest {
 export class StockService {
   private apiUrl = 'http://localhost:8080/api/stock';
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<VehicleStock[]> {
-    return this.http.get<VehicleStock[]>(this.apiUrl, { headers: this.auth.getAuthHeaders() });
+    return this.http.get<VehicleStock[]>(this.apiUrl);
   }
 
   getByVin(vin: string): Observable<VehicleStock> {
-    return this.http.get<VehicleStock>(`${this.apiUrl}/${vin}`, { headers: this.auth.getAuthHeaders() });
+    return this.http.get<VehicleStock>(`${this.apiUrl}/${vin}`);
   }
 
-  /** Dealer: dealerId comes from JWT on backend — never sent from frontend */
   addStock(request: CreateStockRequest): Observable<VehicleStock> {
-    return this.http.post<VehicleStock>(this.apiUrl, request, { headers: this.auth.getAuthHeaders() });
+    return this.http.post<VehicleStock>(this.apiUrl, request);
   }
 
-  /** Admin only: add stock for a specific dealer */
   addStockForDealer(dealerId: number, request: CreateStockRequest): Observable<VehicleStock> {
-    return this.http.post<VehicleStock>(
-      `${this.apiUrl}/admin/dealer/${dealerId}`,
-      request,
-      { headers: this.auth.getAuthHeaders() }
-    );
+    return this.http.post<VehicleStock>(`${this.apiUrl}/admin/dealer/${dealerId}`, request);
   }
 
   markAsBooked(vin: string): Observable<VehicleStock> {
-    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/book`, {}, { headers: this.auth.getAuthHeaders() });
+    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/book`, {});
   }
 
   markAsSold(vin: string): Observable<VehicleStock> {
-    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/sell`, {}, { headers: this.auth.getAuthHeaders() });
+    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/sell`, {});
   }
 
   transfer(request: TransferStockRequest): Observable<VehicleStock> {
-    return this.http.post<VehicleStock>(`${this.apiUrl}/transfer`, request, { headers: this.auth.getAuthHeaders() });
+    return this.http.post<VehicleStock>(`${this.apiUrl}/transfer`, request);
   }
 
   delete(vin: string): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/${vin}`, { headers: this.auth.getAuthHeaders() });
+    return this.http.delete<string>(`${this.apiUrl}/${vin}`);
   }
 }

@@ -1,1 +1,80 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0f18;
+  --surface: #161929;
+  --surface2: #1e2235;
+  --surface3: #252a40;
+  --border: #2a2f4a;
+  --border-light: #333859;
+  --text: #e2e8f8;
+  --text-muted: #6b7499;
+  --text-dim: #9aa3c4;
+  --accent: #5b7fff;
+  --accent-hover: #7b9aff;
+  --accent-glow: rgba(91, 127, 255, 0.18);
+  --danger: #f05c7a;
+  --danger-bg: rgba(240, 92, 122, 0.1);
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinner {
+  width: 30px; height: 30px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.spinner-sm {
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.alert-error {
+  background: var(--danger-bg);
+  border: 1px solid rgba(240,92,122,0.3);
+  color: var(--danger);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+}
+
+.alert-success {
+  background: var(--success-bg);
+  border: 1px solid rgba(52,211,153,0.3);
+  color: var(--success);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+}

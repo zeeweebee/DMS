@@ -1,14 +1,54 @@
-<h2>{{ id ? 'Edit Dealer' : 'Add Dealer' }}</h2>
+<div class="form-page">
+  <div class="form-card">
+    <div class="form-header">
+      <a routerLink="/dealers" class="back-btn">← Back to Dealers</a>
+      <h2 class="form-title">{{ id ? 'Edit Dealer' : 'Add Dealer' }}</h2>
+      <p class="form-subtitle">{{ id ? 'Update dealership information' : 'Register a new dealership' }}</p>
+    </div>
 
-<button (click)="logout()">Logout</button>
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
 
-<form (ngSubmit)="save()">
-  <input [(ngModel)]="dealer.dealerName" name="dealerName" placeholder="Name" required />
-  <input [(ngModel)]="dealer.address" name="address" placeholder="Address" />
-  <input [(ngModel)]="dealer.cityId" name="cityId" type="number" placeholder="City ID" />
-  <input [(ngModel)]="dealer.stateId" name="stateId" type="number" placeholder="State ID" />
-  <input [(ngModel)]="dealer.phone" name="phone" placeholder="Phone" />
-  <input [(ngModel)]="dealer.email" name="email" placeholder="Email" />
+    <form (ngSubmit)="save()" class="form-body">
+      <div class="form-row">
+        <div class="field">
+          <label for="dealerName">Dealer Name <span class="required">*</span></label>
+          <input id="dealerName" [(ngModel)]="dealer.dealerName" name="dealerName"
+                 placeholder="e.g. City Motors Pvt Ltd" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" [(ngModel)]="dealer.phone" name="phone" placeholder="+91 98765 43210" />
+        </div>
+      </div>
 
-  <button type="submit">Save</button>
-</form>
+      <div class="field full-width">
+        <label for="email">Email</label>
+        <input id="email" [(ngModel)]="dealer.email" name="email" type="email" placeholder="contact@dealer.com" />
+      </div>
+
+      <div class="field full-width">
+        <label for="address">Address</label>
+        <input id="address" [(ngModel)]="dealer.address" name="address" placeholder="Street address" />
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="cityId">City ID</label>
+          <input id="cityId" [(ngModel)]="dealer.cityId" name="cityId" type="number" placeholder="City ID" />
+        </div>
+        <div class="field">
+          <label for="stateId">State ID</label>
+          <input id="stateId" [(ngModel)]="dealer.stateId" name="stateId" type="number" placeholder="State ID" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Saving…' : (id ? 'Update Dealer' : 'Add Dealer') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

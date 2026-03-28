@@ -1,7 +1,7 @@
 <div class="form-page">
   <div class="form-card">
     <div class="form-header">
-      <button class="back-btn" (click)="cancel()">← Back to Stock</button>
+      <a routerLink="/stock" class="back-btn">← Back to Stock</a>
       <h2 class="form-title">Add Vehicle Stock</h2>
       <p class="form-subtitle">Register a new vehicle to the inventory</p>
     </div>
@@ -49,9 +49,9 @@
 
         <!-- Dealer selection: Admin only -->
         <div *ngIf="isAdmin()" class="field">
-          <label for="dealerId">Assign to Dealer</label>
-          <select id="dealerId" [(ngModel)]="selectedDealerId" name="dealerId">
-            <option [value]="null">Auto-assign (my dealer)</option>
+          <label for="dealerId">Assign to Dealer <span class="required">*</span></label>
+          <select id="dealerId" [(ngModel)]="selectedDealerId" name="dealerId" required>
+            <option [value]="null" disabled>Select dealer…</option>
             <option *ngFor="let d of dealers" [value]="d.dealerId">{{ d.dealerName }}</option>
           </select>
         </div>

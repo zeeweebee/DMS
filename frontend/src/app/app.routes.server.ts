@@ -1,15 +1,9 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
-  { path: '',          renderMode: RenderMode.Prerender },
-  { path: 'login',     renderMode: RenderMode.Prerender },
-  { path: 'hello',     renderMode: RenderMode.Prerender },
-  { path: 'models',    renderMode: RenderMode.Prerender },
-  { path: 'models/add', renderMode: RenderMode.Prerender },
-  { path: 'models/edit/:id', renderMode: RenderMode.Server },
-  { path: 'stock',     renderMode: RenderMode.Server },
-  { path: 'stock/add', renderMode: RenderMode.Server },
-  { path: 'add',       renderMode: RenderMode.Prerender },
-  { path: 'edit/:id',  renderMode: RenderMode.Server },
-  { path: '**',        renderMode: RenderMode.Server }
+  // Only the login page can be prerendered (no auth needed, no localStorage)
+  { path: 'login', renderMode: RenderMode.Prerender },
+
+  // All other routes require auth (localStorage) — must render on the client
+  { path: '**', renderMode: RenderMode.Client }
 ];

@@ -2,10 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vehicle_stock")
@@ -13,7 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VehicleStock {
+@EqualsAndHashCode(callSuper = true)
+public class VehicleStock extends BaseEntity {
 
     @Id
     @Column(length = 50)
@@ -33,7 +32,4 @@ public class VehicleStock {
 
     @Builder.Default
     private String stockStatus = "AVAILABLE"; // AVAILABLE, BOOKED, SOLD
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 }

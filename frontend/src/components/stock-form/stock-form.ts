@@ -51,6 +51,7 @@ export class StockFormComponent implements OnInit {
   save(): void {
     if (!this.request.vin.trim()) { this.error = 'VIN is required.'; return; }
     if (!this.request.modelId) { this.error = 'Please select a model.'; return; }
+    if (this.isAdmin() && !this.selectedDealerId) { this.error = 'Please select a dealer.'; return; }
 
     this.saving = true;
     this.error = '';

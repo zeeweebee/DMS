@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private tokenKey = 'authToken';
   private roleKey = 'userRole';
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   private userRoleSubject = new BehaviorSubject<string | null>(this.getRole());
 
@@ -22,8 +23,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
       tap((response: any) => {
         if (response.token) {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem(this.roleKey, response.role);
+          this.setItem(this.tokenKey, response.token);
+          this.setItem(this.roleKey, response.role);
           this.isAuthenticatedSubject.next(true);
           this.userRoleSubject.next(response.role);
         }
@@ -32,26 +33,23 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.roleKey);
+    this.removeItem(this.tokenKey);
+    this.removeItem(this.roleKey);
     this.isAuthenticatedSubject.next(false);
     this.userRoleSubject.next(null);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return this.getItem(this.tokenKey);
   }
 
   getRole(): string | null {
-    return localStorage.getItem(this.roleKey);
+    return this.getItem(this.roleKey);
   }
 
   getRoles(): string[] {
     const role = this.getRole();
-    if (!role) {
-      return [];
-    }
-    return role.split(',').map(r => r.trim().toUpperCase());
+    return role ? role.split(',').map(r => r.trim().toUpperCase()) : [];
   }
 
   hasRole(role: string): boolean {
@@ -62,19 +60,23 @@ export class AuthService {
     return roles.some(r => this.hasRole(r));
   }
 
-  private hasToken(): boolean {
-    return !!this.getToken();
-  }
-
   isAuthenticated(): boolean {
     return this.hasToken();
   }
 
-  getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
+  private hasToken(): boolean {
+    return !!this.getToken();
+  }
+
+  private getItem(key: string): string | null {
+    return this.isBrowser ? localStorage.getItem(key) : null;
+  }
+
+  private setItem(key: string, value: string): void {
+    if (this.isBrowser) localStorage.setItem(key, value);
+  }
+
+  private removeItem(key: string): void {
+    if (this.isBrowser) localStorage.removeItem(key);
   }
 }

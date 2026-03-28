@@ -3,15 +3,14 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "dealers")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Dealer {
+@EqualsAndHashCode(callSuper = true)
+public class Dealer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +32,4 @@ public class Dealer {
     private String email;
 
     private String status;
-
-    private LocalDateTime createdAt;
 }

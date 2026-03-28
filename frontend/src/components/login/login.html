@@ -1,15 +1,30 @@
-<div class="login-container">
-  <h2>Login</h2>
-  <form (ngSubmit)="onSubmit()">
-    <div>
-      <label for="username">Username:</label>
-      <input type="text" id="username" [(ngModel)]="username" name="username" required>
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-icon">🚗</div>
+      <h1 class="brand-name">DMS</h1>
+      <p class="brand-sub">Dealer Management System</p>
     </div>
-    <div>
-      <label for="password">Password:</label>
-      <input type="password" id="password" [(ngModel)]="password" name="password" required>
-    </div>
-    <button type="submit">Login</button>
-  </form>
-  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" [(ngModel)]="username" name="username"
+               placeholder="Enter your username" required autocomplete="username" />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password"
+               placeholder="Enter your password" required autocomplete="current-password" />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn-login" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-sm"></span>
+        {{ loading ? 'Signing in…' : 'Sign In' }}
+      </button>
+    </form>
+  </div>
 </div>

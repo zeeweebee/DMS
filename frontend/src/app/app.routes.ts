@@ -9,7 +9,6 @@ import { StockListComponent } from '../components/stock-list/stock-list';
 import { StockFormComponent } from '../components/stock-form/stock-form';
 import { AuthGuard } from './auth.guard';
 import { RoleGuard } from './role.guard';
-import { StockGuard } from './stock.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,8 +24,8 @@ export const routes: Routes = [
   { path: 'models/add', component: ModelFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
   { path: 'models/edit/:id', component: ModelFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
 
-  // Stock — ADMIN, DEALER, EMPLOYEE
-  { path: 'stock', component: StockListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER', 'EMPLOYEE'] } },
+  // Stock — ADMIN and DEALER only (EMPLOYEE is blocked at backend service level)
+  { path: 'stock', component: StockListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER'] } },
   { path: 'stock/add', component: StockFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER'] } },
 
   // Dashboard landing for authenticated users

@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VehicleModel {
+@EqualsAndHashCode(callSuper = true)
+public class VehicleModel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

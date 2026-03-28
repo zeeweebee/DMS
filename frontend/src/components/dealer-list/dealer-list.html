@@ -1,25 +1,58 @@
-<h2>Dealer List</h2>
+<div class="page-wrapper">
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/hello" class="back-link">← Dashboard</a>
+      <h1 class="page-title">Dealers</h1>
+      <span class="record-count" *ngIf="(dealers$ | async) as list">{{ list.length }} dealers</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/dealers/add" class="btn btn-primary">+ Add Dealer</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
 
-<button (click)="logout()">Logout</button>
-<button routerLink="/add">Add Dealer</button>
-
-<table border="1">
-  <tr>
-    <th>Name</th>
-    <th>Code</th>
-    <th>Phone</th>
-    <th>Email</th>
-    <th>Actions</th>
-  </tr>
-
-  <tr *ngFor="let dealer of dealers$ | async">
-    <td>{{ dealer.dealerName }}</td>
-    <td>{{ dealer.dealerCode }}</td>
-    <td>{{ dealer.phone }}</td>
-    <td>{{ dealer.email }}</td>
-    <td>
-      <button [routerLink]="['/edit', dealer.dealerId]">Edit</button>
-      <button (click)="deleteDealer(dealer.dealerId!)">Delete</button>
-    </td>
-  </tr>
-</table>
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dealer</th>
+          <th>Code</th>
+          <th>Contact</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="dealers$ | async as list; else loading">
+          <tr *ngFor="let dealer of list" class="table-row">
+            <td class="name-cell">{{ dealer.dealerName }}</td>
+            <td class="code-cell">{{ dealer.dealerCode }}</td>
+            <td class="contact-cell">
+              <div>{{ dealer.phone }}</div>
+              <div class="sub-text">{{ dealer.email }}</div>
+            </td>
+            <td class="location-cell">
+              <div class="sub-text">City {{ dealer.cityId }} · State {{ dealer.stateId }}</div>
+            </td>
+            <td>
+              <span class="status-badge" [class.active]="dealer.status === 'ACTIVE'">
+                {{ dealer.status ?? 'ACTIVE' }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button [routerLink]="['/dealers/edit', dealer.dealerId]" class="btn-action btn-edit">Edit</button>
+              <button (click)="deleteDealer(dealer.dealerId!)" class="btn-action btn-delete">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="list.length === 0">
+            <td colspan="6" class="empty-state">No dealers found. Add one to get started.</td>
+          </tr>
+        </ng-container>
+        <ng-template #loading>
+          <tr><td colspan="6" class="loading-state"><div class="spinner"></div></td></tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>

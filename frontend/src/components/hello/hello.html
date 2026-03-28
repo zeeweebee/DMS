@@ -1,15 +1,44 @@
-<div class="hello-container">
-  <h2>Hello, {{ role }}!</h2>
-  <p>Welcome to the application.</p>
+<div class="dashboard">
 
-  <div class="module-links">
-    <a routerLink="/models" *ngIf="role">Model Master (Vehicle Catalog)</a>
-    <a routerLink="/stock" *ngIf="role">Vehicle Stock (Inventory)</a>
+  <!-- Top nav -->
+  <header class="nav">
+    <div class="nav-brand">
+      <span class="nav-logo">🚗</span>
+      <span class="nav-name">DMS</span>
+    </div>
+    <div class="nav-right">
+      <div class="nav-role">{{ role }}</div>
+      <button (click)="logout()" class="btn-signout">Sign out</button>
+    </div>
+  </header>
 
-    <a routerLink="/dealers" *ngIf="role === 'ADMIN'">Dealer Management</a>
-    <a routerLink="/models/add" *ngIf="role === 'ADMIN'">Add Model</a>
-    <a routerLink="/stock/add" *ngIf="role === 'ADMIN' || role === 'DEALER'">Add Stock</a>
-  </div>
+  <main class="main">
 
-  <button (click)="logout()">Logout</button>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1 class="hero-heading">Welcome back<span class="dot">.</span></h1>
+        <p class="hero-sub">Here's an overview of your workspace.</p>
+      </div>
+    </section>
+
+    <!-- Module cards -->
+    <section class="modules">
+      <h2 class="section-label">Modules</h2>
+      <div class="module-grid">
+        <a *ngFor="let m of visibleModules"
+           [routerLink]="m.link"
+           class="module-card"
+           [style.--card-color]="m.color">
+          <div class="card-top">
+            <span class="card-icon">{{ m.icon }}</span>
+            <span class="card-arrow">↗</span>
+          </div>
+          <div class="card-name">{{ m.name }}</div>
+          <div class="card-desc">{{ m.desc }}</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
 </div>

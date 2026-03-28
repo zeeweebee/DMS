@@ -19,6 +19,7 @@ C:.
 ¦   ¦   app.spec.ts
 ¦   ¦   app.ts
 ¦   ¦   auth.guard.ts
+¦   ¦   auth.interceptor.ts
 ¦   ¦   role.guard.ts
 ¦   ¦   
 ¦   +---services
@@ -43,13 +44,35 @@ C:.
 ¦   ¦       hello.ts
 ¦   ¦       
 ¦   +---login
-¦           login.css
-¦           login.html
-¦           login.ts
+¦   ¦       login.css
+¦   ¦       login.html
+¦   ¦       login.ts
+¦   ¦       
+¦   +---model-form
+¦   ¦       model-form.css
+¦   ¦       model-form.html
+¦   ¦       model-form.ts
+¦   ¦       
+¦   +---model-list
+¦   ¦       model-list.css
+¦   ¦       model-list.html
+¦   ¦       model-list.ts
+¦   ¦       
+¦   +---stock-form
+¦   ¦       stock-form.css
+¦   ¦       stock-form.html
+¦   ¦       stock-form.ts
+¦   ¦       
+¦   +---stock-list
+¦           stock-list.css
+¦           stock-list.html
+¦           stock-list.ts
 ¦           
 +---services
         dealer.spec.ts
         dealer.ts
+        model.service.ts
+        stock.service.ts
         
 ==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.server.ts ====
 import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
@@ -89,6 +112,7 @@ C:.
 ¦   ¦   app.spec.ts
 ¦   ¦   app.ts
 ¦   ¦   auth.guard.ts
+¦   ¦   auth.interceptor.ts
 ¦   ¦   role.guard.ts
 ¦   ¦   
 ¦   +---services
@@ -113,13 +137,35 @@ C:.
 ¦   ¦       hello.ts
 ¦   ¦       
 ¦   +---login
-¦           login.css
-¦           login.html
-¦           login.ts
+¦   ¦       login.css
+¦   ¦       login.html
+¦   ¦       login.ts
+¦   ¦       
+¦   +---model-form
+¦   ¦       model-form.css
+¦   ¦       model-form.html
+¦   ¦       model-form.ts
+¦   ¦       
+¦   +---model-list
+¦   ¦       model-list.css
+¦   ¦       model-list.html
+¦   ¦       model-list.ts
+¦   ¦       
+¦   +---stock-form
+¦   ¦       stock-form.css
+¦   ¦       stock-form.html
+¦   ¦       stock-form.ts
+¦   ¦       
+¦   +---stock-list
+¦           stock-list.css
+¦           stock-list.html
+¦           stock-list.ts
 ¦           
 +---services
         dealer.spec.ts
         dealer.ts
+        model.service.ts
+        stock.service.ts
         
 ==== C:\Users\2013288\Downloads\demo (1)\frontend\src\main.server.ts ====
 import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
@@ -146,11 +192,7 @@ C:.
 ¦   main.ts
 ¦   output.txt
 ¦   script.bat
-¦   server.ts
-¦   styles.css
-¦   
-+---app
-¦   ¦   ==== C:\Users\2013288\Downloads\demo (1)\frontend\src\script.bat ====
+¦   server.ts==== C:\Users\2013288\Downloads\demo (1)\frontend\src\script.bat ====
 @echo off
 rem Save everything directly to output.txt without echoing to console
 (
@@ -246,45 +288,60 @@ export const config = mergeApplicationConfig(appConfig, serverConfig);
 ==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.config.ts ====
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
+import { authInterceptor } from './auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withFetch())
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
-};==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.server.ts ====
+};
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.server.ts ====
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
-  {
-    path: '',
-    renderMode: RenderMode.Prerender
-  },
-  {
-    path: 'add',
-    renderMode: RenderMode.Prerender
-  },
-  {
-    path: 'edit/:id',
-    renderMode: RenderMode.Server
-  }
-];==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.ts ====
+  // Only the login page can be prerendered (no auth needed, no localStorage)
+  { path: 'login', renderMode: RenderMode.Prerender },
+
+  // All other routes require auth (localStorage) â€” must render on the client
+  { path: '**', renderMode: RenderMode.Client }
+];
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.routes.ts ====
 import { Routes } from '@angular/router';
 import { DealerListComponent } from '../components/dealer-list/dealer-list';
 import { DealerFormComponent } from '../components/dealer-form/dealer-form';
 import { LoginComponent } from '../components/login/login';
 import { HelloComponent } from '../components/hello/hello';
+import { ModelListComponent } from '../components/model-list/model-list';
+import { ModelFormComponent } from '../components/model-form/model-form';
+import { StockListComponent } from '../components/stock-list/stock-list';
+import { StockFormComponent } from '../components/stock-form/stock-form';
 import { AuthGuard } from './auth.guard';
 import { RoleGuard } from './role.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', component: DealerListComponent, canActivate: [AuthGuard, RoleGuard] },
-  { path: 'add', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard] },
-  { path: 'edit/:id', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: '', redirectTo: '/hello', pathMatch: 'full' },
+
+  // Admin-only dealer routes
+  { path: 'dealers', component: DealerListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+  { path: 'dealers/add', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+  { path: 'dealers/edit/:id', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+
+  // Model catalog â€” all authenticated
+  { path: 'models', component: ModelListComponent, canActivate: [AuthGuard] },
+  { path: 'models/add', component: ModelFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+  { path: 'models/edit/:id', component: ModelFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+
+  // Stock â€” ADMIN and DEALER only (EMPLOYEE is blocked at backend service level)
+  { path: 'stock', component: StockListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER'] } },
+  { path: 'stock/add', component: StockFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER'] } },
+
+  // Dashboard landing for authenticated users
   { path: 'hello', component: HelloComponent, canActivate: [AuthGuard] },
+
   { path: '**', redirectTo: '/login' }
 ];==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.spec.ts ====
 import { TestBed } from '@angular/core/testing';
@@ -311,35 +368,20 @@ describe('App', () => {
   });
 });
 ==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.ts ====
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: `<router-outlet></router-outlet>`
+  templateUrl: './app.html'
 })
-export class App implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    if (this.authService.isAuthenticated()) {
-      const role = this.authService.getRole();
-      if (role === 'ADMIN') {
-        this.router.navigate(['/']);
-      } else {
-        this.router.navigate(['/hello']);
-      }
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\auth.guard.ts ====
+export class App {}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\auth.guard.ts ====
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -355,9 +397,23 @@ export class AuthGuard implements CanActivate {
       return false;
     }
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\role.guard.ts ====
+}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\auth.interceptor.ts ====
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from './services/auth.service';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthService).getToken();
+  if (token) {
+    req = req.clone({
+      setHeaders: { Authorization: `Bearer ${token}` }
+    });
+  }
+  return next(req);
+};
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\role.guard.ts ====
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Injectable({
@@ -366,28 +422,35 @@ import { AuthService } from './services/auth.service';
 export class RoleGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean {
-    const role = this.authService.getRole();
-    if (role === 'ADMIN') {
-      return true;
-    } else {
-      this.router.navigate(['/hello']);
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const allowedRoles: string[] = route.data['roles'] || [];
+
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
       return false;
     }
+
+    if (allowedRoles.length === 0 || this.authService.hasAnyRole(allowedRoles)) {
+      return true;
+    }
+
+    this.router.navigate(['/hello']);
+    return false;
   }
 }==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\services\auth.service.ts ====
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private tokenKey = 'authToken';
   private roleKey = 'userRole';
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   private userRoleSubject = new BehaviorSubject<string | null>(this.getRole());
 
@@ -400,8 +463,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
       tap((response: any) => {
         if (response.token) {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem(this.roleKey, response.role);
+          this.setItem(this.tokenKey, response.token);
+          this.setItem(this.roleKey, response.role);
           this.isAuthenticatedSubject.next(true);
           this.userRoleSubject.next(response.role);
         }
@@ -410,36 +473,54 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.roleKey);
+    this.removeItem(this.tokenKey);
+    this.removeItem(this.roleKey);
     this.isAuthenticatedSubject.next(false);
     this.userRoleSubject.next(null);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return this.getItem(this.tokenKey);
   }
 
   getRole(): string | null {
-    return localStorage.getItem(this.roleKey);
+    return this.getItem(this.roleKey);
   }
 
-  private hasToken(): boolean {
-    return !!this.getToken();
+  getRoles(): string[] {
+    const role = this.getRole();
+    return role ? role.split(',').map(r => r.trim().toUpperCase()) : [];
+  }
+
+  hasRole(role: string): boolean {
+    return this.getRoles().includes(role.toUpperCase());
+  }
+
+  hasAnyRole(roles: string[]): boolean {
+    return roles.some(r => this.hasRole(r));
   }
 
   isAuthenticated(): boolean {
     return this.hasToken();
   }
 
-  getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
+  private hasToken(): boolean {
+    return !!this.getToken();
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.spec.ts ====
+
+  private getItem(key: string): string | null {
+    return this.isBrowser ? localStorage.getItem(key) : null;
+  }
+
+  private setItem(key: string, value: string): void {
+    if (this.isBrowser) localStorage.setItem(key, value);
+  }
+
+  private removeItem(key: string): void {
+    if (this.isBrowser) localStorage.removeItem(key);
+  }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.spec.ts ====
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DealerForm } from './dealer-form';
@@ -468,61 +549,56 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DealerService, Dealer } from '../../services/dealer';
-import { AuthService } from '../../app/services/auth.service';
 
 @Component({
   selector: 'app-dealer-form',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './dealer-form.html'
+  templateUrl: './dealer-form.html',
+  styleUrl: './dealer-form.css'
 })
 export class DealerFormComponent implements OnInit {
-
-  dealer: Dealer = {
-    dealerName: '',
-    address: '',
-    cityId: 0,
-    stateId: 0,
-    phone: '',
-    email: ''
-  };
-
+  dealer: Dealer = { dealerName: '', address: '', cityId: 0, stateId: 0, phone: '', email: '' };
   id?: number;
+  saving = false;
+  error = '';
 
   constructor(
     private dealerService: DealerService,
     private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
       this.id = Number(param);
-      this.dealerService.getById(this.id).subscribe(data => {
-        this.dealer = data;
+      this.dealerService.getById(this.id).subscribe({
+        next: (data) => this.dealer = data,
+        error: () => { this.error = 'Failed to load dealer.'; }
       });
     }
   }
 
   save() {
-    if (this.id) {
-      this.dealerService.update(this.id, this.dealer).subscribe(() => {
-        this.router.navigate(['/']);
-      });
-    } else {
-      this.dealerService.create(this.dealer).subscribe(() => {
-        this.router.navigate(['/']);
-      });
-    }
+    this.saving = true;
+    this.error = '';
+    const op = this.id
+      ? this.dealerService.update(this.id, this.dealer)
+      : this.dealerService.create(this.dealer);
+
+    op.subscribe({
+      next: () => this.router.navigate(['/dealers']),
+      error: (err) => {
+        this.saving = false;
+        this.error = err?.error?.message ?? 'Failed to save dealer.';
+      }
+    });
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.spec.ts ====
+  cancel() { this.router.navigate(['/dealers']); }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.spec.ts ====
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DealerListComponent } from './dealer-list';
@@ -583,31 +659,63 @@ export class DealerListComponent {
 }==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\hello\hello.ts ====
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../app/services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hello',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './hello.html'
+  imports: [CommonModule, RouterModule],
+  templateUrl: './hello.html',
+  styleUrl: './hello.css'
 })
 export class HelloComponent implements OnInit {
   role: string | null = null;
+  username: string | null = null;
+
+  readonly modules = [
+    {
+      icon: 'ðŸ“‹',
+      name: 'Vehicle Models',
+      desc: 'Browse and manage the model catalog',
+      link: '/models',
+      roles: ['ADMIN', 'DEALER', 'EMPLOYEE'],
+      color: '#5b7fff'
+    },
+    {
+      icon: 'ðŸ­',
+      name: 'Vehicle Stock',
+      desc: 'Track inventory, book and sell vehicles',
+      link: '/stock',
+      roles: ['ADMIN', 'DEALER'],
+      color: '#34d399'
+    },
+    {
+      icon: 'ðŸ¢',
+      name: 'Dealers',
+      desc: 'Manage dealership accounts',
+      link: '/dealers',
+      roles: ['ADMIN'],
+      color: '#f59e0b'
+    }
+  ];
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authService.userRole$.subscribe(role => {
-      this.role = role;
-    });
+    this.authService.userRole$.subscribe(role => { this.role = role; });
+  }
+
+  get visibleModules() {
+    return this.modules.filter(m => m.roles.includes(this.role ?? ''));
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\login\login.ts ====
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\login\login.ts ====
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -618,31 +726,374 @@ import { AuthService } from '../../app/services/auth.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
+  styleUrl: './login.css'
 })
 export class LoginComponent {
   username = '';
   password = '';
   errorMessage = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
+    this.loading = true;
+    this.errorMessage = '';
     this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        const role = response.role;
-        if (role === 'ADMIN') {
-          this.router.navigate(['/']);
-        } else {
-          this.router.navigate(['/hello']);
-        }
-      },
-      error: (err) => {
-        this.errorMessage = 'Invalid credentials';
+      next: () => this.router.navigate(['/hello']),
+      error: () => {
+        this.loading = false;
+        this.errorMessage = 'Invalid username or password.';
       }
     });
   }
-}==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\dealer.spec.ts ====
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-form\model-form.ts ====
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ModelService, VehicleModel } from '../../services/model.service';
+import { AuthService } from '../../app/services/auth.service';
+
+@Component({
+  selector: 'app-model-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './model-form.html',
+  styleUrl: './model-form.css'
+})
+export class ModelFormComponent implements OnInit {
+  model: VehicleModel = {
+    modelName: '',
+    variant: '',
+    fuelType: 'PETROL',
+    transmission: 'MANUAL',
+    exShowroomPrice: 0,
+    status: 'ACTIVE'
+  };
+
+  id?: number;
+  saving = false;
+  error = '';
+
+  fuelTypes = ['PETROL', 'DIESEL', 'EV'];
+  transmissions = ['MANUAL', 'AUTOMATIC'];
+  statuses = ['ACTIVE', 'INACTIVE'];
+
+  constructor(
+    private modelService: ModelService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    const param = this.route.snapshot.paramMap.get('id');
+    if (param) {
+      this.id = Number(param);
+      this.modelService.getById(this.id).subscribe({
+        next: (data) => this.model = data,
+        error: () => { this.error = 'Failed to load model.'; }
+      });
+    }
+  }
+
+  get isEdit(): boolean { return !!this.id; }
+
+  save(): void {
+    this.saving = true;
+    this.error = '';
+
+    const op = this.isEdit
+      ? this.modelService.update(this.id!, this.model)
+      : this.modelService.create(this.model);
+
+    op.subscribe({
+      next: () => this.router.navigate(['/models']),
+      error: (err) => {
+        this.saving = false;
+        this.error = err?.error?.message ?? 'Save failed. Please try again.';
+      }
+    });
+  }
+
+  cancel(): void { this.router.navigate(['/models']); }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-list\model-list.ts ====
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { ModelService, VehicleModel } from '../../services/model.service';
+import { AuthService } from '../../app/services/auth.service';
+
+@Component({
+  selector: 'app-model-list',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './model-list.html',
+  styleUrl: './model-list.css'
+})
+export class ModelListComponent implements OnInit {
+  models: VehicleModel[] = [];
+  role: string | null = null;
+  loading = true;
+  error = '';
+
+  constructor(
+    private modelService: ModelService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.role = this.authService.getRole();
+    this.loadModels();
+  }
+
+  loadModels(): void {
+    this.loading = true;
+    this.modelService.getAll().subscribe({
+      next: (data) => { this.models = data; this.loading = false; },
+      error: () => { this.error = 'Failed to load models.'; this.loading = false; }
+    });
+  }
+
+  isAdmin(): boolean { return this.role === 'ADMIN'; }
+
+  delete(id: number): void {
+    if (!confirm('Delete this model?')) return;
+    this.modelService.delete(id).subscribe({
+      next: () => this.loadModels(),
+      error: () => { this.error = 'Delete failed.'; }
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  fuelBadgeClass(fuel: string): string {
+    return { PETROL: 'badge-petrol', DIESEL: 'badge-diesel', EV: 'badge-ev' }[fuel] ?? '';
+  }
+
+  statusBadgeClass(status: string): string {
+    return status === 'ACTIVE' ? 'badge-active' : 'badge-inactive';
+  }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-form\stock-form.ts ====
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { StockService, CreateStockRequest } from '../../services/stock.service';
+import { ModelService, VehicleModel } from '../../services/model.service';
+import { DealerService } from '../../services/dealer';
+import { AuthService } from '../../app/services/auth.service';
+
+@Component({
+  selector: 'app-stock-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './stock-form.html',
+  styleUrl: './stock-form.css'
+})
+export class StockFormComponent implements OnInit {
+  request: CreateStockRequest = {
+    vin: '',
+    modelId: 0,
+    color: '',
+    manufactureDate: ''
+  };
+
+  selectedDealerId: number | null = null;
+  models: VehicleModel[] = [];
+  dealers: any[] = [];
+
+  role: string | null = null;
+  saving = false;
+  error = '';
+
+  constructor(
+    private stockService: StockService,
+    private modelService: ModelService,
+    private dealerService: DealerService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.role = this.authService.getRole();
+    this.modelService.getActive().subscribe({ next: (d) => this.models = d });
+    if (this.isAdmin()) {
+      this.dealerService.getAll().subscribe({ next: (d) => this.dealers = d });
+    }
+  }
+
+  isAdmin(): boolean { return this.role === 'ADMIN'; }
+
+  save(): void {
+    if (!this.request.vin.trim()) { this.error = 'VIN is required.'; return; }
+    if (!this.request.modelId) { this.error = 'Please select a model.'; return; }
+    if (this.isAdmin() && !this.selectedDealerId) { this.error = 'Please select a dealer.'; return; }
+
+    this.saving = true;
+    this.error = '';
+
+    const op = this.isAdmin() && this.selectedDealerId
+      ? this.stockService.addStockForDealer(this.selectedDealerId, this.request)
+      : this.stockService.addStock(this.request);
+
+    op.subscribe({
+      next: () => this.router.navigate(['/stock']),
+      error: (err) => {
+        this.saving = false;
+        this.error = err?.error?.message ?? 'Failed to add stock.';
+      }
+    });
+  }
+
+  cancel(): void { this.router.navigate(['/stock']); }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-list\stock-list.ts ====
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { StockService, VehicleStock, TransferStockRequest } from '../../services/stock.service';
+import { DealerService } from '../../services/dealer';
+import { AuthService } from '../../app/services/auth.service';
+
+@Component({
+  selector: 'app-stock-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './stock-list.html',
+  styleUrl: './stock-list.css'
+})
+export class StockListComponent implements OnInit {
+  stocks: VehicleStock[] = [];
+  filteredStocks: VehicleStock[] = [];
+  role: string | null = null;
+  loading = true;
+  error = '';
+  successMsg = '';
+
+  // Transfer modal state
+  showTransfer = false;
+  transferVin = '';
+  targetDealerId: number | null = null;
+  dealers: any[] = [];
+  transferring = false;
+
+  // Filter
+  statusFilter = 'ALL';
+
+  constructor(
+    private stockService: StockService,
+    private dealerService: DealerService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.role = this.authService.getRole();
+    this.loadStock();
+    if (this.isAdmin()) this.loadDealers();
+  }
+
+  loadStock(): void {
+    this.loading = true;
+    this.stockService.getAll().subscribe({
+      next: (data) => {
+        this.stocks = data;
+        this.applyFilter();
+        this.loading = false;
+      },
+      error: () => { this.error = 'Failed to load stock.'; this.loading = false; }
+    });
+  }
+
+  loadDealers(): void {
+    this.dealerService.getAll().subscribe({
+      next: (d) => this.dealers = d,
+      error: () => {}
+    });
+  }
+
+  applyFilter(): void {
+    this.filteredStocks = this.statusFilter === 'ALL'
+      ? [...this.stocks]
+      : this.stocks.filter(s => s.stockStatus === this.statusFilter);
+  }
+
+  isAdmin(): boolean { return this.role === 'ADMIN'; }
+  isDealer(): boolean { return this.role === 'DEALER'; }
+
+  markBooked(vin: string): void {
+    this.stockService.markAsBooked(vin).subscribe({
+      next: () => { this.flash('Marked as BOOKED'); this.loadStock(); },
+      error: (e) => { this.error = e?.error?.message ?? 'Operation failed.'; }
+    });
+  }
+
+  markSold(vin: string): void {
+    this.stockService.markAsSold(vin).subscribe({
+      next: () => { this.flash('Marked as SOLD'); this.loadStock(); },
+      error: (e) => { this.error = e?.error?.message ?? 'Operation failed.'; }
+    });
+  }
+
+  openTransfer(vin: string): void {
+    this.transferVin = vin;
+    this.targetDealerId = null;
+    this.showTransfer = true;
+  }
+
+  confirmTransfer(): void {
+    if (!this.targetDealerId) return;
+    this.transferring = true;
+    const req: TransferStockRequest = { vin: this.transferVin, targetDealerId: this.targetDealerId };
+    this.stockService.transfer(req).subscribe({
+      next: () => {
+        this.transferring = false;
+        this.showTransfer = false;
+        this.flash('Stock transferred successfully');
+        this.loadStock();
+      },
+      error: (e) => {
+        this.transferring = false;
+        this.error = e?.error?.message ?? 'Transfer failed.';
+      }
+    });
+  }
+
+  deleteStock(vin: string): void {
+    if (!confirm(`Delete VIN ${vin}?`)) return;
+    this.stockService.delete(vin).subscribe({
+      next: () => { this.flash('Stock deleted'); this.loadStock(); },
+      error: (e) => { this.error = e?.error?.message ?? 'Delete failed.'; }
+    });
+  }
+
+  flash(msg: string): void {
+    this.successMsg = msg;
+    this.error = '';
+    setTimeout(() => this.successMsg = '', 3000);
+  }
+
+  statusClass(s: string): string {
+    return { AVAILABLE: 'status-available', BOOKED: 'status-booked', SOLD: 'status-sold' }[s] ?? '';
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\dealer.spec.ts ====
 import { TestBed } from '@angular/core/testing';
 
 import { Dealer } from './dealer';
@@ -663,7 +1114,6 @@ describe('Dealer', () => {
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../app/services/auth.service';
 
 export interface Dealer {
   dealerId?: number;
@@ -678,35 +1128,11 @@ export interface Dealer {
   createdAt?: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class DealerService {
-
   private apiUrl = 'http://localhost:8080/api/dealers';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
-
-  getAll(): Observable<Dealer[]> {
-    return this.http.get<Dealer[]>(this.apiUrl, { headers: this.authService.getAuthHeaders() });
-  }
-
-  getById(id: number): Observable<Dealer> {
-    return this.http.get<Dealer>(`${this.apiUrl}/${id}`, { headers: this.authService.getAuthHeaders() });
-  }
-
-  create(dealer: Dealer): Observable<Dealer> {
-    return this.http.post<Dealer>(this.apiUrl, dealer, { headers: this.authService.getAuthHeaders() });
-  }
-
-  update(id: number, dealer: Dealer): Observable<Dealer> {
-    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer, { headers: this.authService.getAuthHeaders() });
-  }
-
-  delete(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.authService.getAuthHeaders() });
-  }
-}
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<Dealer[]> {
     return this.http.get<Dealer[]>(this.apiUrl);
@@ -724,7 +1150,120 @@ export class DealerService {
     return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\model.service.ts ====
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface VehicleModel {
+  modelId?: number;
+  modelName: string;
+  variant: string;
+  fuelType: 'PETROL' | 'DIESEL' | 'EV';
+  transmission: 'MANUAL' | 'AUTOMATIC';
+  exShowroomPrice: number;
+  status?: 'ACTIVE' | 'INACTIVE';
+}
+
+@Injectable({ providedIn: 'root' })
+export class ModelService {
+  private apiUrl = 'http://localhost:8080/api/models';
+
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<VehicleModel[]> {
+    return this.http.get<VehicleModel[]>(this.apiUrl);
+  }
+
+  getActive(): Observable<VehicleModel[]> {
+    return this.http.get<VehicleModel[]>(`${this.apiUrl}/active`);
+  }
+
+  getById(id: number): Observable<VehicleModel> {
+    return this.http.get<VehicleModel>(`${this.apiUrl}/${id}`);
+  }
+
+  create(model: VehicleModel): Observable<VehicleModel> {
+    return this.http.post<VehicleModel>(this.apiUrl, model);
+  }
+
+  update(id: number, model: VehicleModel): Observable<VehicleModel> {
+    return this.http.put<VehicleModel>(`${this.apiUrl}/${id}`, model);
+  }
+
+  delete(id: number): Observable<string> {
+    return this.http.delete<string>(`${this.apiUrl}/${id}`);
+  }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\services\stock.service.ts ====
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface VehicleStock {
+  vin: string;
+  modelId?: number;
+  modelName?: string;
+  variant?: string;
+  dealerId?: number;
+  dealerName?: string;
+  color: string;
+  manufactureDate: string;
+  stockStatus?: 'AVAILABLE' | 'BOOKED' | 'SOLD';
+  createdAt?: string;
+}
+
+export interface CreateStockRequest {
+  vin: string;
+  modelId: number;
+  color: string;
+  manufactureDate: string;
+}
+
+export interface TransferStockRequest {
+  vin: string;
+  targetDealerId: number;
+}
+
+@Injectable({ providedIn: 'root' })
+export class StockService {
+  private apiUrl = 'http://localhost:8080/api/stock';
+
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<VehicleStock[]> {
+    return this.http.get<VehicleStock[]>(this.apiUrl);
+  }
+
+  getByVin(vin: string): Observable<VehicleStock> {
+    return this.http.get<VehicleStock>(`${this.apiUrl}/${vin}`);
+  }
+
+  addStock(request: CreateStockRequest): Observable<VehicleStock> {
+    return this.http.post<VehicleStock>(this.apiUrl, request);
+  }
+
+  addStockForDealer(dealerId: number, request: CreateStockRequest): Observable<VehicleStock> {
+    return this.http.post<VehicleStock>(`${this.apiUrl}/admin/dealer/${dealerId}`, request);
+  }
+
+  markAsBooked(vin: string): Observable<VehicleStock> {
+    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/book`, {});
+  }
+
+  markAsSold(vin: string): Observable<VehicleStock> {
+    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/sell`, {});
+  }
+
+  transfer(request: TransferStockRequest): Observable<VehicleStock> {
+    return this.http.post<VehicleStock>(`${this.apiUrl}/transfer`, request);
+  }
+
+  delete(vin: string): Observable<string> {
+    return this.http.delete<string>(`${this.apiUrl}/${vin}`);
   }
 }

@@ -8,22 +8,25 @@ import { AuthService } from '../../app/services/auth.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
+  styleUrl: './login.css'
 })
 export class LoginComponent {
   username = '';
   password = '';
   errorMessage = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
+    this.loading = true;
+    this.errorMessage = '';
     this.authService.login(this.username, this.password).subscribe({
-      next: () => {
-        this.router.navigate(['/hello']);
-      },
-      error: (err) => {
-        this.errorMessage = 'Invalid credentials';
+      next: () => this.router.navigate(['/hello']),
+      error: () => {
+        this.loading = false;
+        this.errorMessage = 'Invalid username or password.';
       }
     });
   }
