@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { tap } from 'rxjs/operators'; // Add this to your imports
 
 export interface VehicleModel {
   modelId?: number;
@@ -18,16 +19,24 @@ export class ModelService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<VehicleModel[]> {
-    return this.http.get<VehicleModel[]>(this.apiUrl);
-  }
+getAll(): Observable<VehicleModel[]> {
+  return this.http.get<any>(this.apiUrl).pipe(
+    tap(fullResponse => console.log('Raw Backend Response:', fullResponse)), // <--- ADD THIS
+    map(response => response.data.content),
+    tap(unwrappedData => console.log('Unwrapped Table Data:', unwrappedData)) // <--- ADD THIS
+  );
+}
 
   getActive(): Observable<VehicleModel[]> {
-    return this.http.get<VehicleModel[]>(`${this.apiUrl}/active`);
+    return this.http.get<any>(`${this.apiUrl}/active`).pipe(
+      map(response => response.data) // This one uses List<DTO>, so just .data
+    );
   }
 
   getById(id: number): Observable<VehicleModel> {
-    return this.http.get<VehicleModel>(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(response => response.data)
+    );
   }
 
   create(model: VehicleModel): Observable<VehicleModel> {

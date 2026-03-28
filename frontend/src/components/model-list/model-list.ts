@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ModelService, VehicleModel } from '../../services/model.service';
@@ -19,6 +19,7 @@ export class ModelListComponent implements OnInit {
 
   constructor(
     private modelService: ModelService,
+    private cdr: ChangeDetectorRef,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -31,8 +32,8 @@ export class ModelListComponent implements OnInit {
   loadModels(): void {
     this.loading = true;
     this.modelService.getAll().subscribe({
-      next: (data) => { this.models = data; this.loading = false; },
-      error: () => { this.error = 'Failed to load models.'; this.loading = false; }
+      next: (data) => { this.models = data; this.loading = false; this.cdr.detectChanges(); },
+      error: () => { this.error = 'Failed to load models.'; this.loading = false; this.cdr.detectChanges(); }
     });
   }
 

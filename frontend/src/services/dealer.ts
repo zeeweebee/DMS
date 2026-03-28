@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface Dealer {
   dealerId?: number;
@@ -22,7 +22,9 @@ export class DealerService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Dealer[]> {
-    return this.http.get<Dealer[]>(this.apiUrl);
+    return this.http.get<any>(this.apiUrl).pipe(
+      map(response => response.data.content)
+    );
   }
 
   getById(id: number): Observable<Dealer> {

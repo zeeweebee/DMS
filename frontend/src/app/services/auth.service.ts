@@ -17,7 +17,17 @@ export class AuthService {
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   public userRole$ = this.userRoleSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+constructor(private http: HttpClient) {
+  // If we are in the browser, re-evaluate auth status immediately
+  if (this.isBrowser) {
+    const token = this.getToken();
+    const role = this.getRole();
+    if (token) {
+      this.isAuthenticatedSubject.next(true);
+      this.userRoleSubject.next(role);
+    }
+  }
+}
 
 login(username: string, password: string): Observable<any> {
   return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(

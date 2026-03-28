@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface VehicleStock {
   vin: string;
@@ -34,7 +34,9 @@ export class StockService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<VehicleStock[]> {
-    return this.http.get<VehicleStock[]>(this.apiUrl);
+    return this.http.get<any>(this.apiUrl).pipe(
+      map(response => response.data.content) // Extract the array
+    );
   }
 
   getByVin(vin: string): Observable<VehicleStock> {

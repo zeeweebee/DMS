@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -35,6 +35,7 @@ export class StockListComponent implements OnInit {
     private stockService: StockService,
     private dealerService: DealerService,
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
 
@@ -51,8 +52,9 @@ export class StockListComponent implements OnInit {
         this.stocks = data;
         this.applyFilter();
         this.loading = false;
+        this.cdr.detectChanges();
       },
-      error: () => { this.error = 'Failed to load stock.'; this.loading = false; }
+      error: () => { this.error = 'Failed to load stock.'; this.loading = false; this.cdr.detectChanges();}
     });
   }
 
