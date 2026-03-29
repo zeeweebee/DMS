@@ -1,0 +1,95 @@
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/bookings" class="back-link">← Bookings</a>
+      <h1 class="page-title">Sales</h1>
+      <span class="record-count">{{ filtered.length }} / {{ sales.length }}</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/sales/new" class="btn btn-primary">+ Record Sale</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div *ngIf="successMsg" class="alert-success">✓ {{ successMsg }}</div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Filters -->
+  <div class="filter-row">
+    <div class="filter-bar">
+      <span class="filter-label">Status:</span>
+      <button *ngFor="let s of statuses"
+              class="filter-btn" [class.active]="statusFilter === s"
+              (click)="statusFilter = s; applyFilter()">{{ s }}</button>
+    </div>
+    <input class="search-input" [(ngModel)]="keyword"
+           (ngModelChange)="applyFilter()"
+           placeholder="Search invoice, customer, VIN…" />
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading sales…</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Invoice</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Vehicle / VIN</th>
+          <th *ngIf="isAdmin()">Dealer</th>
+          <th>Mode</th>
+          <th>Sale Price</th>
+          <th>Status</th>
+          <th>Invoice PDF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of filtered" class="table-row">
+          <td class="invoice-cell">{{ s.invoiceNumber }}</td>
+          <td class="sub">{{ s.saleDate | date:'dd MMM yyyy' }}</td>
+          <td class="customer-cell">
+            <div class="name">{{ s.customerName }}</div>
+            <div class="sub">{{ s.customerPhone }}</div>
+          </td>
+          <td class="model-cell">
+            <div>{{ s.modelName }} {{ s.variant }}</div>
+            <div class="vin">{{ s.vin }}</div>
+          </td>
+          <td *ngIf="isAdmin()" class="sub">{{ s.dealerName }}</td>
+          <td>
+            <span class="mode-badge" [ngClass]="paymentModeClass(s.paymentMode ?? '')">
+              {{ s.paymentMode }}
+            </span>
+          </td>
+          <td class="price-cell">₹{{ s.salePrice | number:'1.0-0' }}</td>
+          <td>
+            <span class="badge" [ngClass]="statusClass(s.paymentStatus ?? '')">
+              {{ s.paymentStatus }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-download"
+                    [class.loading]="downloadingId === s.saleId"
+                    [disabled]="downloadingId === s.saleId"
+                    (click)="downloadInvoice(s)">
+              <span *ngIf="downloadingId !== s.saleId">⬇ PDF</span>
+              <span *ngIf="downloadingId === s.saleId" class="spinner-sm"></span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0 && !loading">
+          <td [colSpan]="isAdmin() ? 9 : 8" class="empty-state">No sales found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

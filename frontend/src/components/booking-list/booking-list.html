@@ -1,0 +1,118 @@
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/enquiries" class="back-link">← Enquiries</a>
+      <h1 class="page-title">Bookings</h1>
+      <span class="record-count">{{ filtered.length }} / {{ bookings.length }}</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/bookings/add" class="btn btn-primary">+ New Booking</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div *ngIf="successMsg" class="alert-success">✓ {{ successMsg }}</div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-label">Status:</span>
+    <button *ngFor="let s of statuses"
+            class="filter-btn"
+            [class.active]="statusFilter === s"
+            (click)="statusFilter = s; applyFilter()">
+      {{ s }}
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading bookings…</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Customer</th>
+          <th>Vehicle</th>
+          <th>VIN</th>
+          <th *ngIf="isAdmin()">Dealer</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of filtered" class="table-row">
+          <td class="id-cell">#{{ b.bookingId }}</td>
+          <td class="customer-cell">
+            <div class="name">{{ b.customerName }}</div>
+            <div class="sub">{{ b.customerPhone }}</div>
+          </td>
+          <td class="model-cell">
+            <div>{{ b.modelName }}</div>
+            <div class="sub">{{ b.variant }} · {{ b.color }}</div>
+          </td>
+          <td class="vin-cell">{{ b.vin }}</td>
+          <td *ngIf="isAdmin()" class="sub">{{ b.dealerName }}</td>
+          <td class="sub">{{ b.bookingDate | date:'mediumDate' }}</td>
+          <td class="amount-cell">{{ b.bookingAmount ? ('₹' + (b.bookingAmount | number:'1.0-0')) : '—' }}</td>
+          <td>
+            <span class="badge" [ngClass]="statusClass(b.bookingStatus ?? '')">{{ b.bookingStatus }}</span>
+          </td>
+          <td class="actions-cell">
+            <button *ngIf="b.bookingStatus !== 'CANCELLED'"
+                    (click)="openCancel(b.bookingId!)"
+                    class="action-btn btn-cancel-booking">
+              Cancel
+            </button>
+            <span *ngIf="b.bookingStatus === 'CANCELLED'" class="cancelled-note"
+                  [title]="'Reason: ' + (b.cancellationReason ?? '—')">
+              Cancelled
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0 && !loading">
+          <td [colSpan]="isAdmin() ? 9 : 8" class="empty-state">No bookings found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Cancel Modal -->
+<div *ngIf="showCancelModal" class="modal-overlay" (click)="showCancelModal = false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">Cancel Booking #{{ cancellingId }}</h3>
+    <p class="modal-subtitle">The VIN will be returned to AVAILABLE status.</p>
+
+    <div class="field">
+      <label>Reason <span class="required">*</span></label>
+      <input [(ngModel)]="cancelReason" name="cancelReason" placeholder="e.g. Customer changed mind" />
+    </div>
+
+    <div class="field">
+      <label>Refund Amount (₹)</label>
+      <input [(ngModel)]="refundAmount" name="refundAmount" type="number" min="0" placeholder="0" />
+    </div>
+
+    <div *ngIf="error" class="alert-error" style="margin-bottom: 1rem;">{{ error }}</div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="showCancelModal = false">Close</button>
+      <button class="btn btn-danger" [disabled]="cancelling" (click)="confirmCancel()">
+        <span *ngIf="cancelling" class="spinner-sm"></span>
+        {{ cancelling ? 'Cancelling…' : 'Confirm Cancel' }}
+      </button>
+    </div>
+  </div>
+</div>

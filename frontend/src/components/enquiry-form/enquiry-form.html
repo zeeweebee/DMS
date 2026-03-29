@@ -1,0 +1,113 @@
+<div class="form-page">
+  <div class="form-card">
+
+    <div class="form-header">
+      <a routerLink="/enquiries" class="back-btn">← Back to Enquiries</a>
+      <h2 class="form-title">New Enquiry</h2>
+      <p class="form-subtitle">Capture a customer lead for a vehicle</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+
+      <!-- Customer section -->
+      <div class="section-label">Customer</div>
+
+      <div class="toggle-row">
+        <button type="button" class="toggle-btn" [class.active]="!useExistingCustomer"
+                (click)="useExistingCustomer = false">New Customer</button>
+        <button type="button" class="toggle-btn" [class.active]="useExistingCustomer"
+                (click)="useExistingCustomer = true">Existing Customer</button>
+      </div>
+
+      <!-- Existing customer -->
+      <div *ngIf="useExistingCustomer" class="field full-width">
+        <label for="existingCustomer">Select Customer <span class="required">*</span></label>
+        <select id="existingCustomer" [(ngModel)]="existingCustomerId" name="existingCustomerId" required>
+          <option [value]="null" disabled>Choose customer…</option>
+          <option *ngFor="let c of customers" [value]="c.customerId">
+            {{ c.customerName }} — {{ c.phone }}
+          </option>
+        </select>
+      </div>
+
+      <!-- New customer fields -->
+      <div *ngIf="!useExistingCustomer">
+        <div class="form-row">
+          <div class="field">
+            <label for="custName">Full Name <span class="required">*</span></label>
+            <input id="custName" [(ngModel)]="customerName" name="customerName" placeholder="e.g. Rajan Kumar" />
+          </div>
+          <div class="field">
+            <label for="custPhone">Phone</label>
+            <input id="custPhone" [(ngModel)]="customerPhone" name="customerPhone" placeholder="+91 98765 43210" />
+          </div>
+        </div>
+        <div class="field full-width">
+          <label for="custEmail">Email</label>
+          <input id="custEmail" [(ngModel)]="customerEmail" name="customerEmail" type="email" placeholder="customer@email.com" />
+        </div>
+        <p class="hint">If the phone or email matches an existing customer, they will be linked automatically.</p>
+      </div>
+
+      <!-- Vehicle + Dealer -->
+      <div class="section-label" style="margin-top: 1.5rem;">Vehicle &amp; Dealer</div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="modelId">Model <span class="required">*</span></label>
+          <select id="modelId" [(ngModel)]="modelId" name="modelId" required>
+            <option [value]="0" disabled>Select model…</option>
+            <option *ngFor="let m of models" [value]="m.modelId">
+              {{ m.modelName }} {{ m.variant }} ({{ m.fuelType }})
+            </option>
+          </select>
+        </div>
+        <div *ngIf="isAdmin()" class="field">
+          <label for="dealerId">Dealer <span class="required">*</span></label>
+          <select id="dealerId" [(ngModel)]="dealerId" name="dealerId" required>
+            <option [value]="null" disabled>Select dealer…</option>
+            <option *ngFor="let d of dealers" [value]="d.dealerId">{{ d.dealerName }}</option>
+          </select>
+        </div>
+        <div *ngIf="!isAdmin()" class="field">
+          <label>Dealer</label>
+          <div class="read-only-field">Derived from your account</div>
+        </div>
+      </div>
+
+      <!-- Metadata -->
+      <div class="section-label" style="margin-top: 1.5rem;">Details</div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="source">Source</label>
+          <select id="source" [(ngModel)]="source" name="source">
+            <option value="">Select source…</option>
+            <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="enquiryDate">Enquiry Date</label>
+          <input id="enquiryDate" [(ngModel)]="enquiryDate" name="enquiryDate" type="date" />
+        </div>
+      </div>
+
+      <div class="field" style="max-width: 260px;">
+        <label for="status">Initial Stage</label>
+        <select id="status" [(ngModel)]="status" name="status">
+          <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Saving…' : 'Create Enquiry' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

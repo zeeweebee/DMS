@@ -23,7 +23,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity          // enables @PreAuthorize on controllers & services
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -38,18 +38,14 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                // Public endpoints
                 .requestMatchers("/api/auth/**").permitAll()
-
-                // Dealer management — ADMIN only (method-level @PreAuthorize also enforces)
                 .requestMatchers("/api/dealers/**").hasRole("ADMIN")
-
-                // Model catalog — all authenticated users can view; mutations via @PreAuthorize
                 .requestMatchers("/api/models/**").authenticated()
-
-                // Stock module — ADMIN and DEALER; EMPLOYEE blocked at service level too
                 .requestMatchers("/api/stock/**").hasAnyRole("ADMIN", "DEALER")
-
+                .requestMatchers("/api/customers/**").hasAnyRole("ADMIN", "DEALER")
+                .requestMatchers("/api/enquiries/**").hasAnyRole("ADMIN", "DEALER")
+                .requestMatchers("/api/bookings/**").hasAnyRole("ADMIN", "DEALER")
+                .requestMatchers("/api/sales/**").hasAnyRole("ADMIN", "DEALER")
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -60,23 +56,21 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList(allowedOrigins.split(",")));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        CorsConfiguration cfg = new CorsConfiguration();
+        cfg.setAllowedOriginPatterns(Arrays.asList(allowedOrigins.split(",")));
+        cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        cfg.setAllowedHeaders(List.of("*"));
+        cfg.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", cfg);
         return source;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration cfg) throws Exception {
+        return cfg.getAuthenticationManager();
     }
 }

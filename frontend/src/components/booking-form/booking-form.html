@@ -1,0 +1,107 @@
+<div class="form-page">
+  <div class="form-card">
+
+    <div class="form-header">
+      <a routerLink="/bookings" class="back-btn">← Back to Bookings</a>
+      <h2 class="form-title">Create Booking</h2>
+      <p class="form-subtitle">Convert a negotiating enquiry into a confirmed booking</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+
+      <!-- Enquiry picker -->
+      <div class="field full-width">
+        <label for="enquiry">Enquiry (NEGOTIATING stage) <span class="required">*</span></label>
+        <select id="enquiry" [(ngModel)]="enquiryId" name="enquiryId"
+                (ngModelChange)="onEnquiryChange()" required>
+          <option [value]="null" disabled>Select enquiry…</option>
+          <option *ngFor="let e of enquiries" [value]="e.enquiryId">
+            #{{ e.enquiryId }} — {{ e.customerName }} · {{ e.modelName }} {{ e.variant }}
+          </option>
+        </select>
+        <span *ngIf="enquiries.length === 0" class="hint">
+          No enquiries are at NEGOTIATING stage. Advance an enquiry from the Enquiries page first.
+        </span>
+      </div>
+
+      <!-- Selected enquiry summary card -->
+      <div *ngIf="selectedEnquiry" class="summary-card">
+        <div class="summary-row">
+          <span class="summary-label">Customer</span>
+          <span>{{ selectedEnquiry.customerName }} · {{ selectedEnquiry.customerPhone }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Model</span>
+          <span>{{ selectedEnquiry.modelName }} {{ selectedEnquiry.variant }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Dealer</span>
+          <span>{{ selectedEnquiry.dealerName }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Source</span>
+          <span>{{ selectedEnquiry.source ?? '—' }}</span>
+        </div>
+      </div>
+
+      <!-- VIN allocation -->
+      <div *ngIf="selectedEnquiry" class="section-label" style="margin-top: 1.5rem;">VIN Allocation</div>
+
+      <div *ngIf="selectedEnquiry" class="toggle-row">
+        <button type="button" class="toggle-btn" [class.active]="useFifo"
+                (click)="useFifo = true; selectedVin = ''">
+          Auto (FIFO — oldest available)
+        </button>
+        <button type="button" class="toggle-btn" [class.active]="!useFifo"
+                (click)="useFifo = false">
+          Pick specific VIN
+        </button>
+      </div>
+
+      <div *ngIf="selectedEnquiry && !useFifo" class="field full-width">
+        <label for="vin">Select VIN</label>
+        <select id="vin" [(ngModel)]="selectedVin" name="vin">
+          <option value="" disabled>Choose VIN…</option>
+          <option *ngFor="let s of availableVins" [value]="s.vin">
+            {{ s.vin }} — {{ s.color }} ({{ s.manufactureDate | date:'MMM yyyy' }})
+          </option>
+        </select>
+        <span *ngIf="availableVins.length === 0" class="hint hint-warn">
+          No available stock for this model at the dealer.
+        </span>
+      </div>
+
+      <div *ngIf="selectedEnquiry && useFifo" class="fifo-note">
+        <span class="fifo-icon">⚡</span>
+        The system will automatically assign the oldest available VIN for
+        <strong>{{ selectedEnquiry.modelName }} {{ selectedEnquiry.variant }}</strong>
+        at <strong>{{ selectedEnquiry.dealerName }}</strong>.
+      </div>
+
+      <!-- Booking details -->
+      <div *ngIf="selectedEnquiry" class="section-label" style="margin-top: 1.5rem;">Booking Details</div>
+
+      <div *ngIf="selectedEnquiry" class="form-row">
+        <div class="field">
+          <label for="bookingDate">Booking Date</label>
+          <input id="bookingDate" [(ngModel)]="bookingDate" name="bookingDate" type="date" />
+        </div>
+        <div class="field">
+          <label for="amount">Advance Amount (₹)</label>
+          <input id="amount" [(ngModel)]="bookingAmount" name="bookingAmount"
+                 type="number" min="0" placeholder="e.g. 25000" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving || !enquiryId">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Booking…' : 'Confirm Booking' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

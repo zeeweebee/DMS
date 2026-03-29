@@ -1,0 +1,107 @@
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/hello" class="back-link">← Dashboard</a>
+      <h1 class="page-title">Enquiries</h1>
+      <span class="record-count">{{ filtered.length }} / {{ enquiries.length }}</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/enquiries/add" class="btn btn-primary">+ New Enquiry</button>
+      <button routerLink="/bookings" class="btn btn-secondary">Bookings</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div *ngIf="successMsg" class="alert-success">✓ {{ successMsg }}</div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Filters -->
+  <div class="filter-row">
+    <div class="filter-bar">
+      <span class="filter-label">Stage:</span>
+      <button *ngFor="let s of statuses"
+              class="filter-btn"
+              [class.active]="statusFilter === s"
+              (click)="statusFilter = s; applyFilter()">
+        {{ s }}
+      </button>
+    </div>
+    <input class="search-input" [(ngModel)]="keyword" (ngModelChange)="applyFilter()"
+           placeholder="Search name, phone, model…" />
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading enquiries…</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Model</th>
+          <th *ngIf="isAdmin()">Dealer</th>
+          <th>Source</th>
+          <th>Date</th>
+          <th>Stage</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of filtered" class="table-row">
+          <td class="customer-cell">
+            <div class="name">{{ e.customerName }}</div>
+            <div class="sub">{{ e.customerPhone }}</div>
+          </td>
+          <td class="model-cell">
+            <div>{{ e.modelName }}</div>
+            <div class="sub">{{ e.variant }}</div>
+          </td>
+          <td *ngIf="isAdmin()" class="sub">{{ e.dealerName }}</td>
+          <td class="sub">{{ e.source ?? '—' }}</td>
+          <td class="sub">{{ e.enquiryDate | date:'mediumDate' }}</td>
+          <td>
+            <span class="badge" [ngClass]="statusClass(e.status ?? '')">{{ e.status }}</span>
+          </td>
+          <td class="actions-cell">
+            <!-- Advance pipeline -->
+            <button *ngIf="canAdvance(e.status ?? '') && e.status !== 'NEGOTIATING'"
+                    (click)="advanceStatus(e)"
+                    class="action-btn btn-advance">
+              {{ nextLabel(e.status ?? '') }}
+            </button>
+            <!-- Book — only from NEGOTIATING -->
+            <button *ngIf="canBook(e)"
+                    [routerLink]="['/bookings/add']"
+                    [queryParams]="{ enquiryId: e.enquiryId }"
+                    class="action-btn btn-book">
+              Book
+            </button>
+            <!-- Mark Lost -->
+            <button *ngIf="e.status !== 'LOST' && e.status !== 'CONVERTED'"
+                    (click)="markLost(e)"
+                    class="action-btn btn-lost">
+              Lost
+            </button>
+            <!-- Delete (admin) -->
+            <button *ngIf="isAdmin()"
+                    (click)="delete(e.enquiryId!)"
+                    class="action-btn btn-delete">
+              Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0 && !loading">
+          <td [colSpan]="isAdmin() ? 7 : 6" class="empty-state">No enquiries found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

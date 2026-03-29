@@ -1,0 +1,147 @@
+<div class="form-page">
+  <div class="form-card">
+
+    <div class="form-header">
+      <a routerLink="/sales" class="back-btn">← Back to Sales</a>
+      <h2 class="form-title">Record Sale</h2>
+      <p class="form-subtitle">Convert a confirmed booking to a completed sale and generate an invoice</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+
+      <!-- Booking picker -->
+      <div class="section-label">Select Booking</div>
+
+      <div class="field full-width">
+        <label for="booking">Confirmed Booking <span class="required">*</span></label>
+        <select id="booking" [(ngModel)]="bookingId" name="bookingId"
+                (ngModelChange)="onBookingChange()" required>
+          <option [value]="null" disabled>Choose a confirmed booking…</option>
+          <option *ngFor="let b of bookings" [value]="b.bookingId">
+            #{{ b.bookingId }} — {{ b.customerName }} · {{ b.modelName }} {{ b.variant }} · VIN: {{ b.vin }}
+          </option>
+        </select>
+        <span *ngIf="bookings.length === 0" class="hint">
+          No confirmed bookings available. Create a booking first.
+        </span>
+      </div>
+
+      <!-- Booking summary card -->
+      <div *ngIf="selectedBooking" class="summary-card">
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="s-label">Customer</span>
+            <span class="s-value">{{ selectedBooking.customerName }}</span>
+            <span class="s-sub">{{ selectedBooking.customerPhone }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Vehicle</span>
+            <span class="s-value">{{ selectedBooking.modelName }} {{ selectedBooking.variant }}</span>
+            <span class="s-sub">{{ selectedBooking.color }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">VIN</span>
+            <span class="s-value mono">{{ selectedBooking.vin }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Booking Advance</span>
+            <span class="s-value success">
+              {{ selectedBooking.bookingAmount ? ('₹' + (selectedBooking.bookingAmount | number:'1.0-0')) : '—' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sale details -->
+      <div *ngIf="selectedBooking" class="section-label" style="margin-top:1.5rem">Sale Details</div>
+
+      <div *ngIf="selectedBooking" class="form-row">
+        <div class="field">
+          <label for="salePrice">Final Sale Price (₹) <span class="required">*</span></label>
+          <input id="salePrice" [(ngModel)]="salePrice" name="salePrice"
+                 type="number" min="1" step="1000"
+                 placeholder="e.g. 1250000" required />
+          <span class="hint">Agreed price inclusive of all charges</span>
+        </div>
+        <div class="field">
+          <label for="saleDate">Sale Date</label>
+          <input id="saleDate" [(ngModel)]="saleDate" name="saleDate" type="date" />
+        </div>
+      </div>
+
+      <!-- Payment Mode -->
+      <div *ngIf="selectedBooking" class="field" style="margin-bottom:1.25rem">
+        <label>Payment Mode <span class="required">*</span></label>
+        <div class="mode-grid">
+          <button *ngFor="let m of paymentModes" type="button"
+                  class="mode-btn" [class.active]="paymentMode === m"
+                  (click)="paymentMode = m">
+            <span class="mode-icon">{{ m === 'CASH' ? '💵' : m === 'LOAN' ? '🏦' : m === 'EXCHANGE' ? '🔄' : '⚡' }}</span>
+            {{ m }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Loan fields -->
+      <div *ngIf="selectedBooking && showLoanFields" class="conditional-block">
+        <div class="conditional-label">🏦 Finance / Loan Details</div>
+        <div class="form-row">
+          <div class="field">
+            <label for="loanAmount">Loan Amount (₹)</label>
+            <input id="loanAmount" [(ngModel)]="loanAmount" name="loanAmount"
+                   type="number" min="0" placeholder="e.g. 900000" />
+          </div>
+          <div class="field">
+            <label for="financeBank">Finance Bank / NBFC</label>
+            <input id="financeBank" [(ngModel)]="financeBank" name="financeBank"
+                   placeholder="e.g. HDFC Bank, SBI" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange fields -->
+      <div *ngIf="selectedBooking && showExchangeFields" class="conditional-block">
+        <div class="conditional-label">🔄 Exchange Vehicle Details</div>
+        <div class="form-row">
+          <div class="field">
+            <label for="exchangeVehicle">Exchange Vehicle</label>
+            <input id="exchangeVehicle" [(ngModel)]="exchangeVehicle" name="exchangeVehicle"
+                   placeholder="e.g. Maruti Swift 2019 (MH12AB1234)" />
+          </div>
+          <div class="field">
+            <label for="exchangeValue">Exchange Value (₹)</label>
+            <input id="exchangeValue" [(ngModel)]="exchangeValue" name="exchangeValue"
+                   type="number" min="0" placeholder="e.g. 350000" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Remarks -->
+      <div *ngIf="selectedBooking" class="field full-width">
+        <label for="remarks">Remarks (printed on invoice)</label>
+        <textarea id="remarks" [(ngModel)]="remarks" name="remarks"
+                  rows="2" placeholder="Optional notes for the customer…"></textarea>
+      </div>
+
+      <!-- Invoice note -->
+      <div *ngIf="selectedBooking" class="invoice-note">
+        <span class="note-icon">📄</span>
+        <div>
+          <strong>Invoice generated automatically.</strong><br>
+          A uniquely numbered PDF invoice will be created and downloaded immediately after saving.
+          The vehicle will be marked as <strong>SOLD</strong>.
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving || !bookingId">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Processing…' : 'Record Sale & Download Invoice' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
