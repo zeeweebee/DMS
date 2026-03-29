@@ -1,5 +1,5 @@
-Folder PATH listing for volume OS
-Volume serial number is EC55-CC8C
+Folder PATH listing for volume Windows
+Volume serial number is 7064-2969
 C:.
 ¶   index.html
 ¶   main.server.ts
@@ -74,1197 +74,1379 @@ C:.
         model.service.ts
         stock.service.ts
         
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.server.ts ====
-import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { config } from './app/app.config.server';
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\styles.css ====
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-const bootstrap = (context: BootstrapContext) =>
-    bootstrapApplication(App, config, context);
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-export default bootstrap;
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.ts ====
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { App } from './app/app';
-
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\output.txt ====
-Folder PATH listing for volume OS
-Volume serial number is EC55-CC8C
-C:.
-¶   index.html
-¶   main.server.ts
-¶   main.ts
-¶   output.txt
-¶   script.bat
-¶   server.ts
-¶   styles.css
-¶   
-+---app
-¶   ¶   app.config.server.ts
-¶   ¶   app.config.ts
-¶   ¶   app.css
-¶   ¶   app.html
-¶   ¶   app.routes.server.ts
-¶   ¶   app.routes.ts
-¶   ¶   app.spec.ts
-¶   ¶   app.ts
-¶   ¶   auth.guard.ts
-¶   ¶   auth.interceptor.ts
-¶   ¶   role.guard.ts
-¶   ¶   
-¶   +---services
-¶           auth.service.ts
-¶           
-+---components
-¶   +---dealer-form
-¶   ¶       dealer-form.css
-¶   ¶       dealer-form.html
-¶   ¶       dealer-form.spec.ts
-¶   ¶       dealer-form.ts
-¶   ¶       
-¶   +---dealer-list
-¶   ¶       dealer-list.css
-¶   ¶       dealer-list.html
-¶   ¶       dealer-list.spec.ts
-¶   ¶       dealer-list.ts
-¶   ¶       
-¶   +---hello
-¶   ¶       hello.css
-¶   ¶       hello.html
-¶   ¶       hello.ts
-¶   ¶       
-¶   +---login
-¶   ¶       login.css
-¶   ¶       login.html
-¶   ¶       login.ts
-¶   ¶       
-¶   +---model-form
-¶   ¶       model-form.css
-¶   ¶       model-form.html
-¶   ¶       model-form.ts
-¶   ¶       
-¶   +---model-list
-¶   ¶       model-list.css
-¶   ¶       model-list.html
-¶   ¶       model-list.ts
-¶   ¶       
-¶   +---stock-form
-¶   ¶       stock-form.css
-¶   ¶       stock-form.html
-¶   ¶       stock-form.ts
-¶   ¶       
-¶   +---stock-list
-¶           stock-list.css
-¶           stock-list.html
-¶           stock-list.ts
-¶           
-+---services
-        dealer.spec.ts
-        dealer.ts
-        model.service.ts
-        stock.service.ts
-        
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.server.ts ====
-import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { config } from './app/app.config.server';
-
-const bootstrap = (context: BootstrapContext) =>
-    bootstrapApplication(App, config, context);
-
-export default bootstrap;
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\main.ts ====
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { App } from './app/app';
-
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\output.txt ====
-Folder PATH listing for volume OS
-Volume serial number is EC55-CC8C
-C:.
-¶   index.html
-¶   main.server.ts
-¶   main.ts
-¶   output.txt
-¶   script.bat
-¶   server.ts
-¶   styl==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\script.bat ====
-@echo off
-rem Save everything directly to output.txt without echoing to console
-(
-    tree /f
-    for /r %%f in (*) do (
-        if /i not "%%~xf"==".css" if /i not "%%~xf"==".html" (
-            echo ==== %%f ====
-            type "%%f"
-        )
-    )
-) > output.txt==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\server.ts ====
-import {
-  AngularNodeAppEngine,
-  createNodeRequestHandler,
-  isMainModule,
-  writeResponseToNodeResponse,
-} from '@angular/ssr/node';
-import express from 'express';
-import { join } from 'node:path';
-
-const browserDistFolder = join(import.meta.dirname, '../browser');
-
-const app = express();
-const angularApp = new AngularNodeAppEngine();
-
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
-
-/**
- * Serve static files from /browser
- */
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.use((req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
-});
-
-/**
- * Start the server if this module is the main entry point, or it is ran via PM2.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
-if (isMainModule(import.meta.url) || process.env['pm_id']) {
-  const port = process.env['PORT'] || 4000;
-  app.listen(port, (error) => {
-    if (error) {
-      throw error;
-    }
-
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
+:root {
+  --bg: #0d0f18;
+  --surface: #161929;
+  --surface2: #1e2235;
+  --surface3: #252a40;
+  --border: #2a2f4a;
+  --border-light: #333859;
+  --text: #e2e8f8;
+  --text-muted: #6b7499;
+  --text-dim: #9aa3c4;
+  --accent: #5b7fff;
+  --accent-hover: #7b9aff;
+  --accent-glow: rgba(91, 127, 255, 0.18);
+  --danger: #f05c7a;
+  --danger-bg: rgba(240, 92, 122, 0.1);
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
-export const reqHandler = createNodeRequestHandler(app);
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.config.server.ts ====
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering, withRoutes } from '@angular/ssr';
-import { appConfig } from './app.config';
-import { serverRoutes } from './app.routes.server';
-
-const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(withRoutes(serverRoutes))
-  ]
-};
-
-export const config = mergeApplicationConfig(appConfig, serverConfig);
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.config.ts ====
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { routes } from './app.routes';
-import { authInterceptor } from './auth.interceptor';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor]))
-  ]
-};
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.routes.server.ts ====
-import { RenderMode, ServerRoute } from '@angular/ssr';
-
-export const serverRoutes: ServerRoute[] = [
-  // Only the login page can be prerendered (no auth needed, no localStorage)
-  { path: 'login', renderMode: RenderMode.Prerender },
-
-  // All other routes require auth (localStorage) ‚Äî must render on the client
-  { path: '**', renderMode: RenderMode.Client }
-];
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.routes.ts ====
-import { Routes } from '@angular/router';
-import { DealerListComponent } from '../components/dealer-list/dealer-list';
-import { DealerFormComponent } from '../components/dealer-form/dealer-form';
-import { LoginComponent } from '../components/login/login';
-import { HelloComponent } from '../components/hello/hello';
-import { ModelListComponent } from '../components/model-list/model-list';
-import { ModelFormComponent } from '../components/model-form/model-form';
-import { StockListComponent } from '../components/stock-list/stock-list';
-import { StockFormComponent } from '../components/stock-form/stock-form';
-import { AuthGuard } from './auth.guard';
-import { RoleGuard } from './role.guard';
-
-export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/hello', pathMatch: 'full' },
-
-  // Admin-only dealer routes
-  { path: 'dealers', component: DealerListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'dealers/add', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'dealers/edit/:id', component: DealerFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-
-  // Model catalog ‚Äî all authenticated
-  { path: 'models', component: ModelListComponent, canActivate: [AuthGuard] },
-  { path: 'models/add', component: ModelFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'models/edit/:id', component: ModelFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-
-  // Stock ‚Äî ADMIN and DEALER only (EMPLOYEE is blocked at backend service level)
-  { path: 'stock', component: StockListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER'] } },
-  { path: 'stock/add', component: StockFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'DEALER'] } },
-
-  // Dashboard landing for authenticated users
-  { path: 'hello', component: HelloComponent, canActivate: [AuthGuard] },
-
-  { path: '**', redirectTo: '/login' }
-];==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.spec.ts ====
-import { TestBed } from '@angular/core/testing';
-import { App } from './app';
-
-describe('App', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
-  });
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, frontend');
-  });
-});
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\app.ts ====
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.html'
-})
-export class App {}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\auth.guard.ts ====
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
-  }
-}==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\auth.interceptor.ts ====
-import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { AuthService } from './services/auth.service';
-
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = inject(AuthService).getToken();
-  if (token) {
-    req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
-    });
-  }
-  return next(req);
-};
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\role.guard.ts ====
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class RoleGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const allowedRoles: string[] = route.data['roles'] || [];
-
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-
-    if (allowedRoles.length === 0 || this.authService.hasAnyRole(allowedRoles)) {
-      return true;
-    }
-
-    this.router.navigate(['/hello']);
-    return false;
-  }
-}==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\app\services\auth.service.ts ====
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
-@Injectable({ providedIn: 'root' })
-export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
-  private tokenKey = 'authToken';
-  private roleKey = 'userRole';
-  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
-  private userRoleSubject = new BehaviorSubject<string | null>(this.getRole());
-
-  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-  public userRole$ = this.userRoleSubject.asObservable();
-
-  constructor(private http: HttpClient) {}
-
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
-      tap((response: any) => {
-        if (response.token) {
-          this.setItem(this.tokenKey, response.token);
-          this.setItem(this.roleKey, response.role);
-          this.isAuthenticatedSubject.next(true);
-          this.userRoleSubject.next(response.role);
-        }
-      })
-    );
-  }
-
-  logout(): void {
-    this.removeItem(this.tokenKey);
-    this.removeItem(this.roleKey);
-    this.isAuthenticatedSubject.next(false);
-    this.userRoleSubject.next(null);
-  }
-
-  getToken(): string | null {
-    return this.getItem(this.tokenKey);
-  }
-
-  getRole(): string | null {
-    return this.getItem(this.roleKey);
-  }
-
-  getRoles(): string[] {
-    const role = this.getRole();
-    return role ? role.split(',').map(r => r.trim().toUpperCase()) : [];
-  }
-
-  hasRole(role: string): boolean {
-    return this.getRoles().includes(role.toUpperCase());
-  }
-
-  hasAnyRole(roles: string[]): boolean {
-    return roles.some(r => this.hasRole(r));
-  }
-
-  isAuthenticated(): boolean {
-    return this.hasToken();
-  }
-
-  private hasToken(): boolean {
-    return !!this.getToken();
-  }
-
-  private getItem(key: string): string | null {
-    return this.isBrowser ? localStorage.getItem(key) : null;
-  }
-
-  private setItem(key: string, value: string): void {
-    if (this.isBrowser) localStorage.setItem(key, value);
-  }
-
-  private removeItem(key: string): void {
-    if (this.isBrowser) localStorage.removeItem(key);
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-form\dealer-form.spec.ts ====
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DealerForm } from './dealer-form';
-
-describe('DealerForm', () => {
-  let component: DealerForm;
-  let fixture: ComponentFixture<DealerForm>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DealerForm],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(DealerForm);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-form\dealer-form.ts ====
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { DealerService, Dealer } from '../../services/dealer';
-
-@Component({
-  selector: 'app-dealer-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './dealer-form.html',
-  styleUrl: './dealer-form.css'
-})
-export class DealerFormComponent implements OnInit {
-  dealer: Dealer = { dealerName: '', address: '', cityId: 0, stateId: 0, phone: '', email: '' };
-  id?: number;
-  saving = false;
-  error = '';
-
-  constructor(
-    private dealerService: DealerService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    const param = this.route.snapshot.paramMap.get('id');
-    if (param) {
-      this.id = Number(param);
-      this.dealerService.getById(this.id).subscribe({
-        next: (data) => this.dealer = data,
-        error: () => { this.error = 'Failed to load dealer.'; }
-      });
-    }
-  }
-
-  save() {
-    this.saving = true;
-    this.error = '';
-    const op = this.id
-      ? this.dealerService.update(this.id, this.dealer)
-      : this.dealerService.create(this.dealer);
-
-    op.subscribe({
-      next: () => this.router.navigate(['/dealers']),
-      error: (err) => {
-        this.saving = false;
-        this.error = err?.error?.message ?? 'Failed to save dealer.';
-      }
-    });
-  }
-
-  cancel() { this.router.navigate(['/dealers']); }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-list\dealer-list.spec.ts ====
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DealerListComponent } from './dealer-list';
-
-describe('DealerListComponent', () => {
-  let component: DealerListComponent;
-  let fixture: ComponentFixture<DealerListComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DealerListComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(DealerListComponent);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\dealer-list\dealer-list.ts ====
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { DealerService, Dealer } from '../../services/dealer';
-import { AuthService } from '../../app/services/auth.service';
-import { Observable } from 'rxjs';
-import { PLATFORM_ID } from '@angular/core';
-
-@Component({
-  selector: 'app-dealer-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './dealer-list.html'
-})
-export class DealerListComponent {
-
-  dealers$: Observable<Dealer[]>; // Observable for async pipe
-  platformId = inject(PLATFORM_ID);
-
-  constructor(private dealerService: DealerService, private authService: AuthService, private router: Router) {
-    this.dealers$ = this.dealerService.getAll(); // Assign observable directly
-  }
-
-  // Delete dealer and refresh observable
-  deleteDealer(id: number) {
-    this.dealerService.delete(id).subscribe(() => {
-      this.dealers$ = this.dealerService.getAll(); // Reassign observable to refresh table
-    });
-  }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-}==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\hello\hello.ts ====
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../app/services/auth.service';
-
-@Component({
-  selector: 'app-hello',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './hello.html',
-  styleUrl: './hello.css'
-})
-export class HelloComponent implements OnInit {
-  role: string | null = null;
-  username: string | null = null;
-
-  readonly modules = [
-    {
-      icon: 'üìã',
-      name: 'Vehicle Models',
-      desc: 'Browse and manage the model catalog',
-      link: '/models',
-      roles: ['ADMIN', 'DEALER', 'EMPLOYEE'],
-      color: '#5b7fff'
-    },
-    {
-      icon: 'üè≠',
-      name: 'Vehicle Stock',
-      desc: 'Track inventory, book and sell vehicles',
-      link: '/stock',
-      roles: ['ADMIN', 'DEALER'],
-      color: '#34d399'
-    },
-    {
-      icon: 'üè¢',
-      name: 'Dealers',
-      desc: 'Manage dealership accounts',
-      link: '/dealers',
-      roles: ['ADMIN'],
-      color: '#f59e0b'
-    }
-  ];
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    this.authService.userRole$.subscribe(role => { this.role = role; });
-  }
-
-  get visibleModules() {
-    return this.modules.filter(m => m.roles.includes(this.role ?? ''));
-  }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\login\login.ts ====
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../app/services/auth.service';
-
-@Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './login.html',
-  styleUrl: './login.css'
-})
-export class LoginComponent {
-  username = '';
-  password = '';
-  errorMessage = '';
-  loading = false;
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  onSubmit() {
-    this.loading = true;
-    this.errorMessage = '';
-    this.authService.login(this.username, this.password).subscribe({
-      next: () => this.router.navigate(['/hello']),
-      error: () => {
-        this.loading = false;
-        this.errorMessage = 'Invalid username or password.';
-      }
-    });
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\model-form\model-form.ts ====
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ModelService, VehicleModel } from '../../services/model.service';
-import { AuthService } from '../../app/services/auth.service';
-
-@Component({
-  selector: 'app-model-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './model-form.html',
-  styleUrl: './model-form.css'
-})
-export class ModelFormComponent implements OnInit {
-  model: VehicleModel = {
-    modelName: '',
-    variant: '',
-    fuelType: 'PETROL',
-    transmission: 'MANUAL',
-    exShowroomPrice: 0,
-    status: 'ACTIVE'
-  };
-
-  id?: number;
-  saving = false;
-  error = '';
-
-  fuelTypes = ['PETROL', 'DIESEL', 'EV'];
-  transmissions = ['MANUAL', 'AUTOMATIC'];
-  statuses = ['ACTIVE', 'INACTIVE'];
-
-  constructor(
-    private modelService: ModelService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService
-  ) {}
-
-  ngOnInit(): void {
-    const param = this.route.snapshot.paramMap.get('id');
-    if (param) {
-      this.id = Number(param);
-      this.modelService.getById(this.id).subscribe({
-        next: (data) => this.model = data,
-        error: () => { this.error = 'Failed to load model.'; }
-      });
-    }
-  }
-
-  get isEdit(): boolean { return !!this.id; }
-
-  save(): void {
-    this.saving = true;
-    this.error = '';
-
-    const op = this.isEdit
-      ? this.modelService.update(this.id!, this.model)
-      : this.modelService.create(this.model);
-
-    op.subscribe({
-      next: () => this.router.navigate(['/models']),
-      error: (err) => {
-        this.saving = false;
-        this.error = err?.error?.message ?? 'Save failed. Please try again.';
-      }
-    });
-  }
-
-  cancel(): void { this.router.navigate(['/models']); }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\model-list\model-list.ts ====
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { ModelService, VehicleModel } from '../../services/model.service';
-import { AuthService } from '../../app/services/auth.service';
-
-@Component({
-  selector: 'app-model-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './model-list.html',
-  styleUrl: './model-list.css'
-})
-export class ModelListComponent implements OnInit {
-  models: VehicleModel[] = [];
-  role: string | null = null;
-  loading = true;
-  error = '';
-
-  constructor(
-    private modelService: ModelService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.role = this.authService.getRole();
-    this.loadModels();
-  }
-
-  loadModels(): void {
-    this.loading = true;
-    this.modelService.getAll().subscribe({
-      next: (data) => { this.models = data; this.loading = false; },
-      error: () => { this.error = 'Failed to load models.'; this.loading = false; }
-    });
-  }
-
-  isAdmin(): boolean { return this.role === 'ADMIN'; }
-
-  delete(id: number): void {
-    if (!confirm('Delete this model?')) return;
-    this.modelService.delete(id).subscribe({
-      next: () => this.loadModels(),
-      error: () => { this.error = 'Delete failed.'; }
-    });
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
-  fuelBadgeClass(fuel: string): string {
-    return { PETROL: 'badge-petrol', DIESEL: 'badge-diesel', EV: 'badge-ev' }[fuel] ?? '';
-  }
-
-  statusBadgeClass(status: string): string {
-    return status === 'ACTIVE' ? 'badge-active' : 'badge-inactive';
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\stock-form\stock-form.ts ====
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { StockService, CreateStockRequest } from '../../services/stock.service';
-import { ModelService, VehicleModel } from '../../services/model.service';
-import { DealerService } from '../../services/dealer';
-import { AuthService } from '../../app/services/auth.service';
-
-@Component({
-  selector: 'app-stock-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './stock-form.html',
-  styleUrl: './stock-form.css'
-})
-export class StockFormComponent implements OnInit {
-  request: CreateStockRequest = {
-    vin: '',
-    modelId: 0,
-    color: '',
-    manufactureDate: ''
-  };
-
-  selectedDealerId: number | null = null;
-  models: VehicleModel[] = [];
-  dealers: any[] = [];
-
-  role: string | null = null;
-  saving = false;
-  error = '';
-
-  constructor(
-    private stockService: StockService,
-    private modelService: ModelService,
-    private dealerService: DealerService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.role = this.authService.getRole();
-    this.modelService.getActive().subscribe({ next: (d) => this.models = d });
-    if (this.isAdmin()) {
-      this.dealerService.getAll().subscribe({ next: (d) => this.dealers = d });
-    }
-  }
-
-  isAdmin(): boolean { return this.role === 'ADMIN'; }
-
-  save(): void {
-    if (!this.request.vin.trim()) { this.error = 'VIN is required.'; return; }
-    if (!this.request.modelId) { this.error = 'Please select a model.'; return; }
-    if (this.isAdmin() && !this.selectedDealerId) { this.error = 'Please select a dealer.'; return; }
-
-    this.saving = true;
-    this.error = '';
-
-    const op = this.isAdmin() && this.selectedDealerId
-      ? this.stockService.addStockForDealer(this.selectedDealerId, this.request)
-      : this.stockService.addStock(this.request);
-
-    op.subscribe({
-      next: () => this.router.navigate(['/stock']),
-      error: (err) => {
-        this.saving = false;
-        this.error = err?.error?.message ?? 'Failed to add stock.';
-      }
-    });
-  }
-
-  cancel(): void { this.router.navigate(['/stock']); }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\components\stock-list\stock-list.ts ====
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { StockService, VehicleStock, TransferStockRequest } from '../../services/stock.service';
-import { DealerService } from '../../services/dealer';
-import { AuthService } from '../../app/services/auth.service';
-
-@Component({
-  selector: 'app-stock-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './stock-list.html',
-  styleUrl: './stock-list.css'
-})
-export class StockListComponent implements OnInit {
-  stocks: VehicleStock[] = [];
-  filteredStocks: VehicleStock[] = [];
-  role: string | null = null;
-  loading = true;
-  error = '';
-  successMsg = '';
-
-  // Transfer modal state
-  showTransfer = false;
-  transferVin = '';
-  targetDealerId: number | null = null;
-  dealers: any[] = [];
-  transferring = false;
-
-  // Filter
-  statusFilter = 'ALL';
-
-  constructor(
-    private stockService: StockService,
-    private dealerService: DealerService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.role = this.authService.getRole();
-    this.loadStock();
-    if (this.isAdmin()) this.loadDealers();
-  }
-
-  loadStock(): void {
-    this.loading = true;
-    this.stockService.getAll().subscribe({
-      next: (data) => {
-        this.stocks = data;
-        this.applyFilter();
-        this.loading = false;
-      },
-      error: () => { this.error = 'Failed to load stock.'; this.loading = false; }
-    });
-  }
-
-  loadDealers(): void {
-    this.dealerService.getAll().subscribe({
-      next: (d) => this.dealers = d,
-      error: () => {}
-    });
-  }
-
-  applyFilter(): void {
-    this.filteredStocks = this.statusFilter === 'ALL'
-      ? [...this.stocks]
-      : this.stocks.filter(s => s.stockStatus === this.statusFilter);
-  }
-
-  isAdmin(): boolean { return this.role === 'ADMIN'; }
-  isDealer(): boolean { return this.role === 'DEALER'; }
-
-  markBooked(vin: string): void {
-    this.stockService.markAsBooked(vin).subscribe({
-      next: () => { this.flash('Marked as BOOKED'); this.loadStock(); },
-      error: (e) => { this.error = e?.error?.message ?? 'Operation failed.'; }
-    });
-  }
-
-  markSold(vin: string): void {
-    this.stockService.markAsSold(vin).subscribe({
-      next: () => { this.flash('Marked as SOLD'); this.loadStock(); },
-      error: (e) => { this.error = e?.error?.message ?? 'Operation failed.'; }
-    });
-  }
-
-  openTransfer(vin: string): void {
-    this.transferVin = vin;
-    this.targetDealerId = null;
-    this.showTransfer = true;
-  }
-
-  confirmTransfer(): void {
-    if (!this.targetDealerId) return;
-    this.transferring = true;
-    const req: TransferStockRequest = { vin: this.transferVin, targetDealerId: this.targetDealerId };
-    this.stockService.transfer(req).subscribe({
-      next: () => {
-        this.transferring = false;
-        this.showTransfer = false;
-        this.flash('Stock transferred successfully');
-        this.loadStock();
-      },
-      error: (e) => {
-        this.transferring = false;
-        this.error = e?.error?.message ?? 'Transfer failed.';
-      }
-    });
-  }
-
-  deleteStock(vin: string): void {
-    if (!confirm(`Delete VIN ${vin}?`)) return;
-    this.stockService.delete(vin).subscribe({
-      next: () => { this.flash('Stock deleted'); this.loadStock(); },
-      error: (e) => { this.error = e?.error?.message ?? 'Delete failed.'; }
-    });
-  }
-
-  flash(msg: string): void {
-    this.successMsg = msg;
-    this.error = '';
-    setTimeout(() => this.successMsg = '', 3000);
-  }
-
-  statusClass(s: string): string {
-    return { AVAILABLE: 'status-available', BOOKED: 'status-booked', SOLD: 'status-sold' }[s] ?? '';
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\dealer.spec.ts ====
-import { TestBed } from '@angular/core/testing';
-
-import { Dealer } from './dealer';
-
-describe('Dealer', () => {
-  let service: Dealer;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Dealer);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\dealer.ts ====
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-export interface Dealer {
-  dealerId?: number;
-  dealerName: string;
-  dealerCode?: string;
-  address: string;
-  cityId: number;
-  stateId: number;
-  phone: string;
-  email: string;
-  status?: string;
-  createdAt?: string;
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-@Injectable({ providedIn: 'root' })
-export class DealerService {
-  private apiUrl = 'http://localhost:8080/api/dealers';
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
 
-  constructor(private http: HttpClient) {}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
 
-  getAll(): Observable<Dealer[]> {
-    return this.http.get<Dealer[]>(this.apiUrl);
-  }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  getById(id: number): Observable<Dealer> {
-    return this.http.get<Dealer>(`${this.apiUrl}/${id}`);
-  }
-
-  create(dealer: Dealer): Observable<Dealer> {
-    return this.http.post<Dealer>(this.apiUrl, dealer);
-  }
-
-  update(id: number, dealer: Dealer): Observable<Dealer> {
-    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer);
-  }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\model.service.ts ====
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-export interface VehicleModel {
-  modelId?: number;
-  modelName: string;
-  variant: string;
-  fuelType: 'PETROL' | 'DIESEL' | 'EV';
-  transmission: 'MANUAL' | 'AUTOMATIC';
-  exShowroomPrice: number;
-  status?: 'ACTIVE' | 'INACTIVE';
+.spinner {
+  width: 30px; height: 30px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
 
-@Injectable({ providedIn: 'root' })
-export class ModelService {
-  private apiUrl = 'http://localhost:8080/api/models';
-
-  constructor(private http: HttpClient) {}
-
-  getAll(): Observable<VehicleModel[]> {
-    return this.http.get<VehicleModel[]>(this.apiUrl);
-  }
-
-  getActive(): Observable<VehicleModel[]> {
-    return this.http.get<VehicleModel[]>(`${this.apiUrl}/active`);
-  }
-
-  getById(id: number): Observable<VehicleModel> {
-    return this.http.get<VehicleModel>(`${this.apiUrl}/${id}`);
-  }
-
-  create(model: VehicleModel): Observable<VehicleModel> {
-    return this.http.post<VehicleModel>(this.apiUrl, model);
-  }
-
-  update(id: number, model: VehicleModel): Observable<VehicleModel> {
-    return this.http.put<VehicleModel>(`${this.apiUrl}/${id}`, model);
-  }
-
-  delete(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/${id}`);
-  }
-}
-==== C:\Users\zohaf\OneDrive\Desktop\DMS\frontend\src\services\stock.service.ts ====
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-export interface VehicleStock {
-  vin: string;
-  modelId?: number;
-  modelName?: string;
-  variant?: string;
-  dealerId?: number;
-  dealerName?: string;
-  color: string;
-  manufactureDate: string;
-  stockStatus?: 'AVAILABLE' | 'BOOKED' | 'SOLD';
-  createdAt?: string;
+.spinner-sm {
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
 }
 
-export interface CreateStockRequest {
-  vin: string;
-  modelId: number;
-  color: string;
-  manufactureDate: string;
+.alert-error {
+  background: var(--danger-bg);
+  border: 1px solid rgba(240,92,122,0.3);
+  color: var(--danger);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
 }
 
-export interface TransferStockRequest {
-  vin: string;
-  targetDealerId: number;
+.alert-success {
+  background: var(--success-bg);
+  border: 1px solid rgba(52,211,153,0.3);
+  color: var(--success);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\index.html ====
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.css ====
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\app\app.html ====
+<router-outlet />
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.css ====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: var(--text);
 }
 
-@Injectable({ providedIn: 'root' })
-export class StockService {
-  private apiUrl = 'http://localhost:8080/api/stock';
-
-  constructor(private http: HttpClient) {}
-
-  getAll(): Observable<VehicleStock[]> {
-    return this.http.get<VehicleStock[]>(this.apiUrl);
-  }
-
-  getByVin(vin: string): Observable<VehicleStock> {
-    return this.http.get<VehicleStock>(`${this.apiUrl}/${vin}`);
-  }
-
-  addStock(request: CreateStockRequest): Observable<VehicleStock> {
-    return this.http.post<VehicleStock>(this.apiUrl, request);
-  }
-
-  addStockForDealer(dealerId: number, request: CreateStockRequest): Observable<VehicleStock> {
-    return this.http.post<VehicleStock>(`${this.apiUrl}/admin/dealer/${dealerId}`, request);
-  }
-
-  markAsBooked(vin: string): Observable<VehicleStock> {
-    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/book`, {});
-  }
-
-  markAsSold(vin: string): Observable<VehicleStock> {
-    return this.http.patch<VehicleStock>(`${this.apiUrl}/${vin}/sell`, {});
-  }
-
-  transfer(request: TransferStockRequest): Observable<VehicleStock> {
-    return this.http.post<VehicleStock>(`${this.apiUrl}/transfer`, request);
-  }
-
-  delete(vin: string): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/${vin}`);
-  }
+.form-page {
+  min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 3rem 1.5rem;
 }
+
+.form-card {
+  width: 100%; max-width: 640px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+}
+
+.form-header {
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+  display: inline-block; color: var(--text-muted); font-size: 0.83rem;
+  text-decoration: none; margin-bottom: 1rem; transition: color 0.2s;
+}
+.back-btn:hover { color: var(--accent); }
+
+.form-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+.form-subtitle { color: var(--text-muted); font-size: 0.85rem; }
+
+.alert-error {
+  margin: 1rem 2rem 0;
+  padding: 0.7rem 1rem;
+  background: var(--danger-bg); border: 1px solid rgba(240,92,122,0.3);
+  border-radius: var(--radius); color: var(--danger); font-size: 0.85rem;
+}
+
+.form-body { padding: 2rem; }
+
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.full-width { margin-bottom: 1.25rem; }
+
+label {
+  font-size: 0.75rem; font-weight: 600; color: var(--text-dim);
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.required { color: var(--danger); }
+
+input {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.65rem 0.9rem; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+input::placeholder { color: var(--text-muted); }
+
+.form-actions {
+  display: flex; justify-content: flex-end; gap: 0.75rem;
+  margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+}
+
+.btn {
+  padding: 0.6rem 1.5rem; border-radius: var(--radius); border: none; cursor: pointer;
+  font-size: 0.9rem; font-weight: 600; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn-cancel { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-cancel:hover { color: var(--text); }
+.btn-save { background: var(--accent); color: #fff; }
+.btn-save:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner-sm {
+  width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-form\dealer-form.html ====
+<div class="form-page">
+  <div class="form-card">
+    <div class="form-header">
+      <a routerLink="/dealers" class="back-btn">‚Üê Back to Dealers</a>
+      <h2 class="form-title">{{ id ? 'Edit Dealer' : 'Add Dealer' }}</h2>
+      <p class="form-subtitle">{{ id ? 'Update dealership information' : 'Register a new dealership' }}</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+      <div class="form-row">
+        <div class="field">
+          <label for="dealerName">Dealer Name <span class="required">*</span></label>
+          <input id="dealerName" [(ngModel)]="dealer.dealerName" name="dealerName"
+                 placeholder="e.g. City Motors Pvt Ltd" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" [(ngModel)]="dealer.phone" name="phone" placeholder="+91 98765 43210" />
+        </div>
+      </div>
+
+      <div class="field full-width">
+        <label for="email">Email</label>
+        <input id="email" [(ngModel)]="dealer.email" name="email" type="email" placeholder="contact@dealer.com" />
+      </div>
+
+      <div class="field full-width">
+        <label for="address">Address</label>
+        <input id="address" [(ngModel)]="dealer.address" name="address" placeholder="Street address" />
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="cityId">City ID</label>
+          <input id="cityId" [(ngModel)]="dealer.cityId" name="cityId" type="number" placeholder="City ID" />
+        </div>
+        <div class="field">
+          <label for="stateId">State ID</label>
+          <input id="stateId" [(ngModel)]="dealer.stateId" name="stateId" type="number" placeholder="State ID" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Saving‚Ä¶' : (id ? 'Update Dealer' : 'Add Dealer') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.css ====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: var(--text);
+}
+
+.page-wrapper { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;
+}
+
+.header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+.back-link {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+
+.page-title {
+  font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.record-count {
+  font-size: 0.78rem; color: var(--text-muted);
+  background: var(--surface2); padding: 0.2rem 0.6rem; border-radius: 999px;
+}
+
+.header-actions { display: flex; gap: 0.5rem; }
+
+.btn {
+  padding: 0.5rem 1.1rem; border-radius: var(--radius); border: none; cursor: pointer;
+  font-size: 0.875rem; font-weight: 500; transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); }
+
+.table-container {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+
+.data-table { width: 100%; border-collapse: collapse; }
+
+.data-table thead tr { background: var(--surface2); }
+
+.data-table th {
+  padding: 0.8rem 1.1rem; text-align: left; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-row { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: var(--surface2); }
+
+.data-table td { padding: 0.85rem 1.1rem; font-size: 0.875rem; vertical-align: middle; }
+
+.name-cell { font-weight: 600; }
+.code-cell { font-family: 'Courier New', monospace; font-size: 0.8rem; color: var(--text-muted); }
+.contact-cell div { line-height: 1.5; }
+.sub-text { font-size: 0.78rem; color: var(--text-muted); }
+
+.status-badge {
+  display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
+  background: var(--danger-bg); color: var(--danger);
+}
+.status-badge.active { background: var(--success-bg); color: var(--success); }
+
+.actions-cell { display: flex; gap: 0.4rem; }
+
+.btn-action {
+  padding: 0.28rem 0.7rem; border-radius: 6px; border: none; cursor: pointer;
+  font-size: 0.75rem; font-weight: 500; transition: all 0.2s;
+}
+.btn-edit { background: rgba(91,127,255,0.12); color: var(--accent); }
+.btn-edit:hover { background: rgba(91,127,255,0.25); }
+.btn-delete { background: var(--danger-bg); color: var(--danger); }
+.btn-delete:hover { background: rgba(240,92,122,0.22); }
+
+.empty-state, .loading-state {
+  text-align: center; color: var(--text-muted); padding: 3rem !important;
+}
+.loading-state { display: table-cell; }
+
+.spinner {
+  width: 28px; height: 28px; border: 3px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.7s linear infinite; margin: 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\dealer-list\dealer-list.html ====
+<div class="page-wrapper">
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/hello" class="back-link">‚Üê Dashboard</a>
+      <h1 class="page-title">Dealers</h1>
+      <span class="record-count" *ngIf="(dealers$ | async) as list">{{ list.length }} dealers</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/dealers/add" class="btn btn-primary">+ Add Dealer</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dealer</th>
+          <th>Code</th>
+          <th>Contact</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="dealers$ | async as list; else loading">
+          <tr *ngFor="let dealer of list" class="table-row">
+            <td class="name-cell">{{ dealer.dealerName }}</td>
+            <td class="code-cell">{{ dealer.dealerCode }}</td>
+            <td class="contact-cell">
+              <div>{{ dealer.phone }}</div>
+              <div class="sub-text">{{ dealer.email }}</div>
+            </td>
+            <td class="location-cell">
+              <div class="sub-text">City {{ dealer.cityId }} ¬∑ State {{ dealer.stateId }}</div>
+            </td>
+            <td>
+              <span class="status-badge" [class.active]="dealer.status === 'ACTIVE'">
+                {{ dealer.status ?? 'ACTIVE' }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button [routerLink]="['/dealers/edit', dealer.dealerId]" class="btn-action btn-edit">Edit</button>
+              <button (click)="deleteDealer(dealer.dealerId!)" class="btn-action btn-delete">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="list.length === 0">
+            <td colspan="6" class="empty-state">No dealers found. Add one to get started.</td>
+          </tr>
+        </ng-container>
+        <ng-template #loading>
+          <tr><td colspan="6" class="loading-state"><div class="spinner"></div></td></tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\hello\hello.css ====
+:host { display: block; min-height: 100vh; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 56px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-brand { display: flex; align-items: center; gap: 0.5rem; }
+.nav-logo { font-size: 1.25rem; }
+.nav-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
+
+.nav-right { display: flex; align-items: center; gap: 0.75rem; }
+
+.nav-role {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-glow);
+  border: 1px solid rgba(91,127,255,0.25); padding: 0.2rem 0.65rem; border-radius: 999px;
+}
+
+.btn-signout {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  padding: 0.35rem 0.9rem; border-radius: var(--radius); cursor: pointer;
+  font-size: 0.82rem; font-family: inherit; transition: all 0.2s;
+}
+.btn-signout:hover { color: var(--text); border-color: var(--border-light); }
+
+.main { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+.hero { margin-bottom: 3rem; }
+
+.hero-heading {
+  font-size: 2.6rem; font-weight: 700; letter-spacing: -0.04em;
+  line-height: 1.1; margin-bottom: 0.5rem;
+}
+.dot { color: var(--accent); }
+.hero-sub { color: var(--text-muted); font-size: 1rem; }
+
+.section-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 1rem;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.module-card {
+  --card-color: var(--accent);
+  display: flex; flex-direction: column; gap: 0.6rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.5rem; text-decoration: none; color: var(--text);
+  transition: all 0.2s; position: relative; overflow: hidden;
+}
+.module-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--card-color); opacity: 0; transition: opacity 0.2s;
+}
+.module-card:hover {
+  border-color: var(--card-color); background: var(--surface2);
+  transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+.module-card:hover::before { opacity: 1; }
+
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+.card-icon { font-size: 1.75rem; }
+.card-arrow {
+  font-size: 1rem; color: var(--text-muted); transition: all 0.2s;
+  opacity: 0; transform: translate(-4px, 4px);
+}
+.module-card:hover .card-arrow { opacity: 1; transform: translate(0,0); color: var(--card-color); }
+
+.card-name { font-size: 1rem; font-weight: 600; }
+.card-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+@media (max-width: 480px) {
+  .hero-heading { font-size: 2rem; }
+  .module-grid { grid-template-columns: 1fr; }
+}
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\hello\hello.html ====
+<div class="dashboard">
+
+  <!-- Top nav -->
+  <header class="nav">
+    <div class="nav-brand">
+      <span class="nav-logo">üöó</span>
+      <span class="nav-name">DMS</span>
+    </div>
+    <div class="nav-right">
+      <div class="nav-role">{{ role }}</div>
+      <button (click)="logout()" class="btn-signout">Sign out</button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1 class="hero-heading">Welcome back<span class="dot">.</span></h1>
+        <p class="hero-sub">Here's an overview of your workspace.</p>
+      </div>
+    </section>
+
+    <!-- Module cards -->
+    <section class="modules">
+      <h2 class="section-label">Modules</h2>
+      <div class="module-grid">
+        <a *ngFor="let m of visibleModules"
+           [routerLink]="m.link"
+           class="module-card"
+           [style.--card-color]="m.color">
+          <div class="card-top">
+            <span class="card-icon">{{ m.icon }}</span>
+            <span class="card-arrow">‚Üó</span>
+          </div>
+          <div class="card-name">{{ m.name }}</div>
+          <div class="card-desc">{{ m.desc }}</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\login\login.css ====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(ellipse at 50% 0%, rgba(91,127,255,0.12) 0%, transparent 70%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.brand-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-sub {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.login-form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+input::placeholder { color: var(--text-muted); }
+
+.alert-error {
+  background: var(--danger-bg);
+  border: 1px solid rgba(240, 92, 122, 0.3);
+  color: var(--danger);
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+.btn-login {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-login:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(91,127,255,0.35);
+}
+
+.btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner-sm {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\login\login.html ====
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-icon">üöó</div>
+      <h1 class="brand-name">DMS</h1>
+      <p class="brand-sub">Dealer Management System</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" [(ngModel)]="username" name="username"
+               placeholder="Enter your username" required autocomplete="username" />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password"
+               placeholder="Enter your password" required autocomplete="current-password" />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn-login" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-sm"></span>
+        {{ loading ? 'Signing in‚Ä¶' : 'Sign In' }}
+      </button>
+    </form>
+  </div>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-form\model-form.css ====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: var(--text);
+}
+
+.form-page {
+  min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.form-card {
+  width: 100%; max-width: 660px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+}
+
+.form-header {
+  padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+  display: inline-block; color: var(--text-muted); font-size: 0.83rem;
+  text-decoration: none; margin-bottom: 1rem; transition: color 0.2s;
+}
+.back-btn:hover { color: var(--accent); }
+
+.form-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+.form-subtitle { color: var(--text-muted); font-size: 0.85rem; }
+
+.alert-error {
+  margin: 1rem 2rem 0; padding: 0.7rem 1rem;
+  background: var(--danger-bg); border: 1px solid rgba(240,92,122,0.3);
+  border-radius: var(--radius); color: var(--danger); font-size: 0.85rem;
+}
+
+.form-body { padding: 2rem; }
+
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.full-width { margin-bottom: 1.25rem; }
+
+label {
+  font-size: 0.75rem; font-weight: 600; color: var(--text-dim);
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.required { color: var(--danger); }
+
+input, select {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.65rem 0.9rem; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+input::placeholder { color: var(--text-muted); }
+select option { background: var(--surface2); }
+
+.form-actions {
+  display: flex; justify-content: flex-end; gap: 0.75rem;
+  margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+}
+
+.btn {
+  padding: 0.6rem 1.5rem; border-radius: var(--radius); border: none; cursor: pointer;
+  font-size: 0.9rem; font-weight: 600; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn-cancel { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-cancel:hover { color: var(--text); }
+.btn-save { background: var(--accent); color: #fff; }
+.btn-save:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner-sm {
+  width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-form\model-form.html ====
+<div class="form-page">
+  <div class="form-card">
+    <div class="form-header">
+      <a routerLink="/models" class="back-btn">‚Üê Back to Models</a>
+      <h2 class="form-title">{{ isEdit ? 'Edit Model' : 'Add New Model' }}</h2>
+      <p class="form-subtitle">{{ isEdit ? 'Update vehicle model details' : 'Register a new vehicle model in the catalog' }}</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+      <div class="form-row">
+        <div class="field">
+          <label for="modelName">Model Name <span class="required">*</span></label>
+          <input id="modelName" [(ngModel)]="model.modelName" name="modelName"
+                 placeholder="e.g. Swift, Creta" required />
+        </div>
+        <div class="field">
+          <label for="variant">Variant</label>
+          <input id="variant" [(ngModel)]="model.variant" name="variant"
+                 placeholder="e.g. ZXi, VXi+, Alpha" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="fuelType">Fuel Type <span class="required">*</span></label>
+          <select id="fuelType" [(ngModel)]="model.fuelType" name="fuelType" required>
+            <option *ngFor="let f of fuelTypes" [value]="f">{{ f }}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="transmission">Transmission <span class="required">*</span></label>
+          <select id="transmission" [(ngModel)]="model.transmission" name="transmission" required>
+            <option *ngFor="let t of transmissions" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="price">Ex-Showroom Price (‚Çπ) <span class="required">*</span></label>
+          <input id="price" [(ngModel)]="model.exShowroomPrice" name="exShowroomPrice"
+                 type="number" min="0" placeholder="e.g. 850000" required />
+        </div>
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" [(ngModel)]="model.status" name="status">
+            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Saving‚Ä¶' : (isEdit ? 'Update Model' : 'Create Model') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-list\model-list.css ====
+:host { display: block; min-height: 100vh; }
+
+.page-wrapper { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;
+}
+.header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+.back-link { font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.back-link:hover { color: var(--accent); }
+
+.page-title {
+  font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.record-count {
+  font-size: 0.78rem; color: var(--text-muted);
+  background: var(--surface2); padding: 0.2rem 0.6rem; border-radius: 999px;
+}
+.header-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+
+.btn {
+  padding: 0.5rem 1.1rem; border-radius: var(--radius); border: none; cursor: pointer;
+  font-size: 0.875rem; font-weight: 500; transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--surface3); }
+.btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); }
+
+.state-loading { display: flex; flex-direction: column; align-items: center; padding: 5rem; gap: 1rem; color: var(--text-muted); }
+
+.table-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead tr { background: var(--surface2); }
+.data-table th {
+  padding: 0.8rem 1.1rem; text-align: left; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.table-row { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: var(--surface2); }
+.data-table td { padding: 0.9rem 1.1rem; font-size: 0.875rem; vertical-align: middle; }
+
+.model-cell { display: flex; flex-direction: column; gap: 0.15rem; }
+.model-name { font-weight: 600; }
+.model-variant { font-size: 0.75rem; color: var(--text-muted); }
+.price-cell { font-family: 'Courier New', monospace; font-weight: 600; color: var(--success); }
+
+.badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
+.badge-petrol { background: rgba(91,127,255,0.12); color: var(--accent); }
+.badge-diesel { background: var(--warning-bg); color: var(--warning); }
+.badge-ev     { background: var(--success-bg); color: var(--success); }
+.badge-active   { background: var(--success-bg); color: var(--success); }
+.badge-inactive { background: var(--danger-bg); color: var(--danger); }
+
+.actions-cell { display: flex; gap: 0.4rem; }
+.btn-action { padding: 0.28rem 0.7rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.75rem; font-weight: 500; transition: all 0.2s; }
+.btn-edit { background: rgba(91,127,255,0.12); color: var(--accent); }
+.btn-edit:hover { background: rgba(91,127,255,0.25); }
+.btn-delete { background: var(--danger-bg); color: var(--danger); }
+.btn-delete:hover { background: rgba(240,92,122,0.22); }
+
+.empty-state { text-align: center; color: var(--text-muted); padding: 3rem !important; }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\model-list\model-list.html ====
+<div class="page-wrapper">
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/hello" class="back-link">‚Üê Dashboard</a>
+      <h1 class="page-title">Vehicle Models</h1>
+      <span class="record-count">{{ models.length }} models</span>
+    </div>
+    <div class="header-actions">
+      <button *ngIf="isAdmin()" routerLink="/models/add" class="btn btn-primary">+ Add Model</button>
+      <button routerLink="/stock" *ngIf="role === 'ADMIN' || role === 'DEALER'" class="btn btn-secondary">Stock</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading models‚Ä¶</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model / Variant</th>
+          <th>Fuel</th>
+          <th>Transmission</th>
+          <th>Ex-Showroom Price</th>
+          <th>Status</th>
+          <th *ngIf="isAdmin()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of models" class="table-row">
+          <td class="model-cell">
+            <span class="model-name">{{ m.modelName }}</span>
+            <span class="model-variant">{{ m.variant }}</span>
+          </td>
+          <td><span class="badge" [ngClass]="fuelBadgeClass(m.fuelType)">{{ m.fuelType }}</span></td>
+          <td>{{ m.transmission }}</td>
+          <td class="price-cell">‚Çπ{{ m.exShowroomPrice | number:'1.0-0' }}</td>
+          <td><span class="badge" [ngClass]="statusBadgeClass(m.status ?? '')">{{ m.status }}</span></td>
+          <td *ngIf="isAdmin()" class="actions-cell">
+            <button [routerLink]="['/models/edit', m.modelId]" class="btn-action btn-edit">Edit</button>
+            <button (click)="delete(m.modelId!)" class="btn-action btn-delete">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="models.length === 0">
+          <td [attr.colspan]="isAdmin() ? 6 : 5" class="empty-state">No models found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-form\stock-form.css ====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: var(--text);
+}
+
+.form-page {
+  min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.form-card {
+  width: 100%; max-width: 700px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+}
+
+.form-header {
+  padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+  display: inline-block; color: var(--text-muted); font-size: 0.83rem;
+  text-decoration: none; margin-bottom: 1rem; transition: color 0.2s;
+}
+.back-btn:hover { color: var(--accent); }
+
+.form-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+.form-subtitle { color: var(--text-muted); font-size: 0.85rem; }
+
+.alert-error {
+  margin: 1rem 2rem 0; padding: 0.7rem 1rem;
+  background: var(--danger-bg); border: 1px solid rgba(240,92,122,0.3);
+  border-radius: var(--radius); color: var(--danger); font-size: 0.85rem;
+}
+
+.form-body { padding: 2rem; }
+
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.full-width { margin-bottom: 1.25rem; }
+
+label {
+  font-size: 0.75rem; font-weight: 600; color: var(--text-dim);
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.required { color: var(--danger); }
+.field-hint { font-size: 0.73rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+input, select {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.65rem 0.9rem; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+input::placeholder { color: var(--text-muted); }
+select option { background: var(--surface2); }
+
+.read-only-field {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.65rem 0.9rem; font-size: 0.9rem; color: var(--text-muted); font-style: italic;
+}
+
+.form-actions {
+  display: flex; justify-content: flex-end; gap: 0.75rem;
+  margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+}
+
+.btn {
+  padding: 0.6rem 1.5rem; border-radius: var(--radius); border: none; cursor: pointer;
+  font-size: 0.9rem; font-weight: 600; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn-cancel { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-cancel:hover { color: var(--text); }
+.btn-save { background: var(--accent); color: #fff; }
+.btn-save:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner-sm {
+  width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-form\stock-form.html ====
+<div class="form-page">
+  <div class="form-card">
+    <div class="form-header">
+      <a routerLink="/stock" class="back-btn">‚Üê Back to Stock</a>
+      <h2 class="form-title">Add Vehicle Stock</h2>
+      <p class="form-subtitle">Register a new vehicle to the inventory</p>
+    </div>
+
+    <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+    <form (ngSubmit)="save()" class="form-body">
+
+      <!-- VIN -->
+      <div class="field full-width">
+        <label for="vin">VIN (Vehicle Identification Number) <span class="required">*</span></label>
+        <input id="vin" [(ngModel)]="request.vin" name="vin"
+               placeholder="17-character VIN e.g. 1HGCM82633A123456" required
+               maxlength="50" />
+        <span class="field-hint">Must be unique across all stock</span>
+      </div>
+
+      <div class="form-row">
+        <!-- Model -->
+        <div class="field">
+          <label for="modelId">Vehicle Model <span class="required">*</span></label>
+          <select id="modelId" [(ngModel)]="request.modelId" name="modelId" required>
+            <option [value]="0" disabled>Select model‚Ä¶</option>
+            <option *ngFor="let m of models" [value]="m.modelId">
+              {{ m.modelName }} {{ m.variant }} ‚Äî {{ m.fuelType }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Color -->
+        <div class="field">
+          <label for="color">Color</label>
+          <input id="color" [(ngModel)]="request.color" name="color"
+                 placeholder="e.g. Pearl White, Midnight Black" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- Manufacture Date -->
+        <div class="field">
+          <label for="mfgDate">Manufacture Date</label>
+          <input id="mfgDate" [(ngModel)]="request.manufactureDate" name="manufactureDate"
+                 type="date" />
+        </div>
+
+        <!-- Dealer selection: Admin only -->
+        <div *ngIf="isAdmin()" class="field">
+          <label for="dealerId">Assign to Dealer <span class="required">*</span></label>
+          <select id="dealerId" [(ngModel)]="selectedDealerId" name="dealerId" required>
+            <option [value]="null" disabled>Select dealer‚Ä¶</option>
+            <option *ngFor="let d of dealers" [value]="d.dealerId">{{ d.dealerName }}</option>
+          </select>
+        </div>
+
+        <!-- Dealer note for non-admin -->
+        <div *ngIf="!isAdmin()" class="field">
+          <label>Assigned Dealer</label>
+          <div class="read-only-field">Derived from your account (auto)</div>
+          <span class="field-hint">Your dealership ID is securely extracted from your login session</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-save" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-sm"></span>
+          {{ saving ? 'Adding‚Ä¶' : 'Add to Inventory' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-list\stock-list.css ====
+:host { display: block; min-height: 100vh; }
+
+.page-wrapper { max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+}
+.header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+.back-link { font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.back-link:hover { color: var(--accent); }
+
+.page-title {
+  font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.record-count {
+  font-size: 0.78rem; color: var(--text-muted);
+  background: var(--surface2); padding: 0.2rem 0.6rem; border-radius: 999px;
+}
+.header-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+
+.btn {
+  padding: 0.5rem 1.1rem; border-radius: var(--radius); border: none; cursor: pointer;
+  font-size: 0.875rem; font-weight: 500; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--surface3); }
+.btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); }
+.btn-cancel { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+
+.filter-bar { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.filter-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+.filter-btn {
+  padding: 0.28rem 0.85rem; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--text-muted); cursor: pointer;
+  font-size: 0.75rem; font-weight: 500; transition: all 0.2s;
+}
+.filter-btn:hover { color: var(--text); }
+.filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.table-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead tr { background: var(--surface2); }
+.data-table th {
+  padding: 0.8rem 1rem; text-align: left; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.table-row { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: var(--surface2); }
+.data-table td { padding: 0.85rem 1rem; font-size: 0.875rem; vertical-align: middle; }
+
+.vin-cell { font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--text-muted); }
+.model-cell { display: flex; flex-direction: column; gap: 0.1rem; }
+.model-name { font-weight: 600; }
+.model-variant { font-size: 0.75rem; color: var(--text-muted); }
+.dealer-cell { color: var(--text-muted); font-size: 0.83rem; }
+
+.color-dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+  margin-right: 0.35rem; vertical-align: middle; border: 1px solid rgba(255,255,255,0.15);
+}
+
+.status-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
+.status-available { background: var(--success-bg); color: var(--success); }
+.status-booked    { background: var(--warning-bg); color: var(--warning); }
+.status-sold      { background: rgba(107,116,153,0.12); color: var(--text-muted); }
+
+.actions-cell { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.action-btn { padding: 0.25rem 0.65rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.73rem; font-weight: 600; transition: all 0.2s; }
+.btn-book     { background: rgba(91,127,255,0.12); color: var(--accent); }
+.btn-book:hover { background: rgba(91,127,255,0.25); }
+.btn-sell     { background: var(--success-bg); color: var(--success); }
+.btn-sell:hover { background: rgba(52,211,153,0.22); }
+.btn-transfer { background: var(--warning-bg); color: var(--warning); }
+.btn-transfer:hover { background: rgba(245,158,11,0.22); }
+.btn-delete   { background: var(--danger-bg); color: var(--danger); }
+.btn-delete:hover { background: rgba(240,92,122,0.22); }
+
+.state-loading { display: flex; flex-direction: column; align-items: center; padding: 5rem; gap: 1rem; color: var(--text-muted); }
+.empty-state { text-align: center; color: var(--text-muted); padding: 3rem !important; }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+  padding: 2rem; width: 100%; max-width: 420px; box-shadow: var(--shadow);
+}
+.modal-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.3rem; }
+.modal-subtitle { color: var(--text-muted); font-size: 0.875rem; margin: 0 0 1.5rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.25rem; }
+.field label { font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+.field select {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.65rem 0.9rem; font-size: 0.9rem; color: var(--text); outline: none;
+}
+.field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+==== C:\Users\2013288\Downloads\demo (1)\frontend\src\components\stock-list\stock-list.html ====
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <a routerLink="/hello" class="back-link">‚Üê Dashboard</a>
+      <h1 class="page-title">Vehicle Stock</h1>
+      <span class="record-count">{{ filteredStocks.length }} / {{ stocks.length }} vehicles</span>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/stock/add" class="btn btn-primary">+ Add Stock</button>
+      <button routerLink="/models" class="btn btn-secondary">Models</button>
+      <button *ngIf="isAdmin()" routerLink="/" class="btn btn-secondary">Dealers</button>
+      <button (click)="logout()" class="btn btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div *ngIf="successMsg" class="alert-success">‚úì {{ successMsg }}</div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button *ngFor="let s of ['ALL','AVAILABLE','BOOKED','SOLD']"
+            class="filter-btn"
+            [class.active]="statusFilter === s"
+            (click)="statusFilter = s; applyFilter()">
+      {{ s }}
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="state-loading">
+    <div class="spinner"></div>
+    <p>Loading inventory‚Ä¶</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>VIN</th>
+          <th>Model / Variant</th>
+          <th *ngIf="isAdmin()">Dealer</th>
+          <th>Color</th>
+          <th>Mfg Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of filteredStocks" class="table-row">
+          <td class="vin-cell">{{ s.vin }}</td>
+          <td class="model-cell">
+            <span class="model-name">{{ s.modelName }}</span>
+            <span class="model-variant">{{ s.variant }}</span>
+          </td>
+          <td *ngIf="isAdmin()" class="dealer-cell">{{ s.dealerName }}</td>
+          <td>
+            <span class="color-dot" [style.background]="s.color?.toLowerCase()"></span>
+            {{ s.color }}
+          </td>
+          <td>{{ s.manufactureDate | date:'mediumDate' }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="statusClass(s.stockStatus ?? '')">
+              {{ s.stockStatus }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <!-- Book: only if AVAILABLE -->
+            <button *ngIf="s.stockStatus === 'AVAILABLE'"
+                    (click)="markBooked(s.vin)"
+                    class="action-btn btn-book" title="Mark as Booked">Book</button>
+            <!-- Sell: only if BOOKED -->
+            <button *ngIf="s.stockStatus === 'BOOKED'"
+                    (click)="markSold(s.vin)"
+                    class="action-btn btn-sell" title="Mark as Sold">Sell</button>
+            <!-- Transfer: only if AVAILABLE -->
+            <button *ngIf="s.stockStatus === 'AVAILABLE'"
+                    (click)="openTransfer(s.vin)"
+                    class="action-btn btn-transfer" title="Transfer to another dealer">Transfer</button>
+            <!-- Delete: ADMIN only -->
+            <button *ngIf="isAdmin()"
+                    (click)="deleteStock(s.vin)"
+                    class="action-btn btn-delete" title="Delete">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredStocks.length === 0 && !loading">
+          <td [colSpan]="isAdmin() ? 7 : 6" class="empty-state">No vehicles found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Transfer Modal -->
+<div *ngIf="showTransfer" class="modal-overlay" (click)="showTransfer = false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">Transfer Stock</h3>
+    <p class="modal-subtitle">VIN: <strong>{{ transferVin }}</strong></p>
+
+    <div class="field">
+      <label>Target Dealer</label>
+      <select [(ngModel)]="targetDealerId" name="targetDealer">
+        <option [value]="null" disabled>Select dealer‚Ä¶</option>
+        <option *ngFor="let d of dealers" [value]="d.dealerId">{{ d.dealerName }}</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-cancel" (click)="showTransfer = false">Cancel</button>
+      <button class="btn btn-primary"
+              [disabled]="!targetDealerId || transferring"
+              (click)="confirmTransfer()">
+        <span *ngIf="transferring" class="spinner-sm"></span>
+        {{ transferring ? 'Transferring‚Ä¶' : 'Confirm Transfer' }}
+      </button>
+    </div>
+  </div>
+</div>
